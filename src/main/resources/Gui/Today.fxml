@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="636.0" prefWidth="738.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Today">
+   <children>
+      <BorderPane prefHeight="636.0" prefWidth="738.0" style="-fx-background-color: White;">
+         <left>
+            <Pane prefHeight="636.0" prefWidth="508.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="38.0" layoutY="39.0" text="Today Task">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <ListView fx:id="todoSDesView" layoutX="39.0" layoutY="89.0" prefHeight="500.0" prefWidth="304.0" style="-fx-background-color: WHITE;" />
+                  <Separator layoutX="39.0" layoutY="76.0" prefHeight="0.0" prefWidth="421.0" />
+                  <ListView fx:id="todoactivityView" layoutX="350.0" layoutY="89.0" prefHeight="500.0" prefWidth="123.0" style="-fx-background-color: WHITE;" />
+               </children>
+            </Pane>
+         </left>
+         <right>
+            <Pane prefHeight="636.0" prefWidth="215.0" BorderPane.alignment="CENTER">
+
+            </Pane>
+         </right>
+      </BorderPane>
+   </children>
+</Pane>

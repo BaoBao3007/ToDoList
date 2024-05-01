@@ -33,4 +33,7 @@ public class MySQLDataAccess {
             e.printStackTrace();
         }
     }
+
+
+    // Chức năng thêm: viết ngắn gọi lại các hàm query ( 2-3 hàm), hàm đóng , mở kết nối .
 }
