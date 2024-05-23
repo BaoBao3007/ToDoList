@@ -12,8 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import Data.OtherData;
-import Data.TodoData;
+
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,20 +41,7 @@ public class Dashboard implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Exit.setOnMouseClicked(e -> {
 
-            try{
-
-                TodoData.getInstance().storeTodoItems();
-                OtherData.getInstance().storeOtherItems();
-
-
-            }catch (IOException exception){
-                System.out.println(exception.getMessage());
-            }
-            System.exit(0);
-
-        });
         Minimize.setOnMouseClicked(e -> {
             stage = (Stage) window.getScene().getWindow();
             stage.setIconified(true);
@@ -71,7 +57,7 @@ public class Dashboard implements Initializable {
 
 
         try {
-            Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Today.fxml"));
+            Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/task.fxml"));
             contentArea.getChildren().removeAll();
             contentArea.getChildren().setAll(fxml);
 
@@ -80,21 +66,20 @@ public class Dashboard implements Initializable {
         }
     }
 
+    @FXML
+    private void Task(javafx.event.ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/task.fxml"));
+        contentArea.getChildren().removeAll();
+        contentArea.getChildren().setAll(fxml);
 
+    }
 
     @FXML
     private void Today(javafx.event.ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Today.fxml"));
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
-        try{
 
-            TodoData.getInstance().storeTodoItems();
-            OtherData.getInstance().storeOtherItems();
-
-        }catch (IOException exception){
-            System.out.println(exception.getMessage());
-        }
     }
 
     @FXML
@@ -102,12 +87,7 @@ public class Dashboard implements Initializable {
         Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Upcomming.fxml"));
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
-        try{
-            TodoData.getInstance().storeTodoItems();
-            OtherData.getInstance().storeOtherItems();
-        }catch (IOException exception){
-            System.out.println(exception.getMessage());
-        }
+
     }
 
     @FXML
@@ -115,12 +95,7 @@ public class Dashboard implements Initializable {
         Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Important.fxml"));
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
-        try{
-            TodoData.getInstance().storeTodoItems();
-            OtherData.getInstance().storeOtherItems();
-        }catch (IOException exception){
-            System.out.println(exception.getMessage());
-        }
+
     }
 
     @FXML
@@ -128,12 +103,7 @@ public class Dashboard implements Initializable {
         Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Someday.fxml"));
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
-        try{
-            TodoData.getInstance().storeTodoItems();
-            OtherData.getInstance().storeOtherItems();
-        }catch (IOException exception){
-            System.out.println(exception.getMessage());
-        }
+
 
     }
     @FXML
@@ -141,14 +111,7 @@ public class Dashboard implements Initializable {
         Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Trash.fxml"));
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
-        try{
 
-            TodoData.getInstance().storeTodoItems();
-            OtherData.getInstance().storeOtherItems();
-
-        }catch (IOException exception){
-            System.out.println(exception.getMessage());
-        }
     }
 
     @FXML

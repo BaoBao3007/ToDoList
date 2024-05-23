@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="749.0" prefWidth="738.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TaskController">
+    <children>
+        <BorderPane prefHeight="749.0" prefWidth="738.0" style="-fx-background-color: White;">
+            <left>
+                <Pane prefHeight="749.0" prefWidth="502.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="39.0" layoutY="140.0" text="All task">
+                            <font>
+                                <Font name="System Bold" size="24.0" />
+                            </font>
+                        </Label>
+                        <ListView fx:id="task_id" layoutX="37.0" layoutY="206.0" prefHeight="458.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
+                        <ListView fx:id="task_name" layoutX="85.0" layoutY="206.0" prefHeight="458.0" prefWidth="197.0" style="-fx-background-color: WHITE;" />
+                        <ListView fx:id="category" layoutX="258.0" layoutY="206.0" prefHeight="458.0" prefWidth="185.0" style="-fx-background-color: WHITE;" />
+                        <ListView fx:id="important" focusTraversable="false" layoutX="443.0" layoutY="206.0" prefHeight="458.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
+                            <cursor>
+                                <Cursor fx:constant="DEFAULT" />
+                            </cursor></ListView>
+                        <Separator layoutX="39.0" layoutY="183.0" prefHeight="0.0" prefWidth="443.0" />
+                        <HBox layoutX="74.0" layoutY="678.0" prefHeight="23.0" prefWidth="373.0">
+                            <children>
+                                <Label fx:id="deadlineLabel" style="-fx-background-color: white">
+                                    <font>
+                                        <Font name="Times New Roman bold" size="20" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <Label layoutX="14.0" layoutY="678.0" style="-fx-background-color: white" text="Due: ">
+                            <font>
+                                <Font name="Times New Roman bold" size="20" />
+                            </font>
+                        </Label>
+                        <Button layoutX="407.0" layoutY="48.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tìm kiếm" />
+                        <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="356.0" />
+                        <ComboBox layoutX="312.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
+                    </children>
+                </Pane>
+            </left>
+            <right>
+                <Pane prefHeight="636.0" prefWidth="215.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Label layoutX="38.0" layoutY="170.0" text="Upcomming Task">
+                            <font>
+                                <Font name="Arial Bold" size="18.0" />
+                            </font>
+                        </Label>
+                        <Pane layoutX="24.0" layoutY="202.0" prefHeight="458.0" prefWidth="179.0" style="-fx-background-color: #cafaf4; -fx-background-radius: 20px;">
+                            <children>
+                                <Label fx:id="DescLabel" alignment="TOP_LEFT" layoutX="7.0" layoutY="25.0" prefHeight="419.0" prefWidth="165.0" wrapText="true" />
+                            </children></Pane>
+                    </children>
+                </Pane>
+            </right>
+        </BorderPane>
+    </children>
+</Pane>

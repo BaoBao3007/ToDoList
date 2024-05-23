@@ -1,9 +1,6 @@
 package Controllers;
 
-import Data.OtherData;
-import Data.OtherItem;
-import Data.TodoData;
-import Data.TodoItem;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +13,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-public class AddNewTask implements Initializable {
+public class AddNewTaskController implements Initializable {
     @FXML
     private ImageView Exit;
 
@@ -67,19 +64,19 @@ public class AddNewTask implements Initializable {
                 String Details = DetailsArea.getText();
                 String Category = Categories.getValue().toString();
                 LocalDate deadValue = Deadline.getValue();
+                boolean important = true;
 
-
-                TodoData.getInstance().addTodoItem(new TodoItem(shortDescription, Details, Category, deadValue));
-
+//                TodoData.getInstance().addTodoItem(new TodoItem(shortDescription, Details, Category, deadValue,important));
+//
 
             }else if(Category1.equals("Important")){
                 String shortDescription = Description.getText();
                 String Details = DetailsArea.getText();
                 String Category = Categories.getValue().toString();
                 LocalDate deadValue = Deadline.getValue();
-
-                TodoData.getInstance().addTodoItem(new TodoItem(shortDescription, Details, Category, deadValue));
-
+                boolean important = true;
+//                TodoData.getInstance().addTodoItem(new TodoItem(shortDescription, Details, Category, deadValue,important));
+//
 
             }else if(Category1.equals("Someday")){
                 String shortDescription = Description.getText();
@@ -87,7 +84,7 @@ public class AddNewTask implements Initializable {
                 String Category = Categories.getValue().toString();
                 LocalDate deadValue = Deadline.getValue();
 
-                OtherData.getInstance().addOtherItem(new OtherItem(shortDescription, Details, Category, deadValue));
+//                OtherData.getInstance().addOtherItem(new OtherItem(shortDescription, Details, Category, deadValue));
 
 
             }

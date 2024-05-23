@@ -26,8 +26,11 @@
          <center>
             <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
-                  <ListView fx:id="TrashView" layoutX="35.0" layoutY="14.0" prefHeight="452.0" prefWidth="469.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="activityView" layoutX="510.0" layoutY="14.0" prefHeight="452.0" prefWidth="200.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="task_id" layoutX="38.0" layoutY="89.0" prefHeight="458.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="task_name" layoutX="95.0" layoutY="91.0" prefHeight="455.0" prefWidth="200.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="category" layoutX="303.0" layoutY="90.0" prefHeight="458.0" prefWidth="170.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="important" layoutX="487.0" layoutY="89.0" prefHeight="458.0" prefWidth="55.0" style="-fx-background-color: WHITE;" />
+
                </children>
             </Pane>
          </center>

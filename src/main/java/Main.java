@@ -4,10 +4,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import Data.OtherData;
-import Data.TodoData;
 
-import java.io.IOException;
 
 public class Main extends Application {
     double x,y = 0;
@@ -38,24 +35,11 @@ public class Main extends Application {
 
     @Override
     public void stop() throws Exception {
-        try {
-          TodoData.getInstance().storeTodoItems();
-           OtherData.getInstance().storeOtherItems();
 
-        } catch(IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 
     @Override
     public void init() throws Exception {
-        try {
 
-            TodoData.getInstance().loadTodoItems();
-            OtherData.getInstance().loadOtherItems();
-
-        } catch(IOException e) {
-            throw e;
-        }
     }
 }

@@ -8,21 +8,23 @@
    <children>
       <BorderPane prefHeight="636.0" prefWidth="738.0" style="-fx-background-color: White;">
          <left>
-            <Pane prefHeight="636.0" prefWidth="508.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+            <Pane prefHeight="636.0" prefWidth="556.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="38.0" layoutY="39.0" text="Today Task">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="todoSDesView" layoutX="39.0" layoutY="89.0" prefHeight="500.0" prefWidth="304.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="task_id" layoutX="38.0" layoutY="89.0" prefHeight="458.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="task_name" layoutX="95.0" layoutY="91.0" prefHeight="455.0" prefWidth="200.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="category" layoutX="303.0" layoutY="90.0" prefHeight="458.0" prefWidth="170.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="important" layoutX="487.0" layoutY="89.0" prefHeight="458.0" prefWidth="55.0" style="-fx-background-color: WHITE;" />
                   <Separator layoutX="39.0" layoutY="76.0" prefHeight="0.0" prefWidth="421.0" />
-                  <ListView fx:id="todoactivityView" layoutX="350.0" layoutY="89.0" prefHeight="500.0" prefWidth="123.0" style="-fx-background-color: WHITE;" />
                </children>
             </Pane>
          </left>
          <right>
-            <Pane prefHeight="636.0" prefWidth="215.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="636.0" prefWidth="196.0" BorderPane.alignment="CENTER">
 
             </Pane>
          </right>
