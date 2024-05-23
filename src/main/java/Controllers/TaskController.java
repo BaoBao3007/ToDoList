@@ -2,6 +2,7 @@
 
 
 package Controllers;
+import Dao.CategoryDao;
 import Dao.TaskDao;
 import Model.Task;
 import javafx.beans.value.ChangeListener;
@@ -73,10 +74,33 @@ public class TaskController   {
                         }
                     }
                 };
-
+                cell.emptyProperty().addListener(
+                        (obs, wasEmpty, isNowEmpty) -> {
+                            if (isNowEmpty) {
+                                cell.setContextMenu(null);
+                            } else {
+                                cell.setContextMenu(listContexMenu);
+                            }
+                        });
                 return cell;
             }
         });
+
+        task_id.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
+            @Override
+            public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {
+                if(newValue != null) {
+
+                    int selectedIndex =task_id.getSelectionModel().getSelectedIndex();
+                    if (selectedIndex >= 0) {
+                        task_name.getSelectionModel().select(selectedIndex);
+                        category.getSelectionModel().select(selectedIndex);
+                        important.getSelectionModel().select(selectedIndex);
+                    }
+                }
+            }
+        });
+
         task_name.setItems(observableTasks);
         task_name.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -123,6 +147,13 @@ public class TaskController   {
                     DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy"); // "d M yy");
                     deadlineLabel.setText(df.format(item.getDue_date()));
                     DescLabel.setText(item.getDescription());
+
+                    int selectedIndex =task_name.getSelectionModel().getSelectedIndex();
+                    if (selectedIndex >= 0) {
+                        task_id.getSelectionModel().select(selectedIndex);
+                        category.getSelectionModel().select(selectedIndex);
+                        important.getSelectionModel().select(selectedIndex);
+                    }
                 }
             }
         });
@@ -172,7 +203,20 @@ public class TaskController   {
                 cell();
             }
         });
+        important.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
+            @Override
+            public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {
+                if(newValue != null) {
 
+                    int selectedIndex =important.getSelectionModel().getSelectedIndex();
+                    if (selectedIndex >= 0) {
+                        task_name.getSelectionModel().select(selectedIndex);
+                        task_id.getSelectionModel().select(selectedIndex);
+                        category.getSelectionModel().select(selectedIndex);
+                    }
+                }
+            }
+        });
 
 
         category.setItems(observableTasks);
@@ -188,13 +232,35 @@ public class TaskController   {
                         if(empty) {
                             setText(null);
                         } else {
-                            String category_name =String.valueOf(( item.getCategory_id()));
+                            String category_name = CategoryDao.getInstance().getCategoryName(item.getCategory_id());
                             setText(category_name);
                         }
                     }
                 };
-
+                cell.emptyProperty().addListener(
+                        (obs, wasEmpty, isNowEmpty) -> {
+                            if (isNowEmpty) {
+                                cell.setContextMenu(null);
+                            } else {
+                                cell.setContextMenu(listContexMenu);
+                            }
+                        });
                 return cell;
+            }
+        });
+
+        category.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
+            @Override
+            public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {
+                if(newValue != null) {
+
+                    int selectedIndex =category.getSelectionModel().getSelectedIndex();
+                    if (selectedIndex >= 0) {
+                        task_name.getSelectionModel().select(selectedIndex);
+                        task_id.getSelectionModel().select(selectedIndex);
+                        important.getSelectionModel().select(selectedIndex);
+                    }
+                }
             }
         });
     }

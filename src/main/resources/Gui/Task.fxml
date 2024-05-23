@@ -3,6 +3,7 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
 <Pane prefHeight="749.0" prefWidth="738.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TaskController">
@@ -11,15 +12,15 @@
             <left>
                 <Pane prefHeight="749.0" prefWidth="502.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                     <children>
-                        <Label layoutX="39.0" layoutY="140.0" text="All task">
+                        <Label layoutX="39.0" layoutY="140.0" text="Important">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
                         </Label>
-                        <ListView fx:id="task_id" layoutX="37.0" layoutY="206.0" prefHeight="458.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
-                        <ListView fx:id="task_name" layoutX="85.0" layoutY="206.0" prefHeight="458.0" prefWidth="197.0" style="-fx-background-color: WHITE;" />
-                        <ListView fx:id="category" layoutX="258.0" layoutY="206.0" prefHeight="458.0" prefWidth="185.0" style="-fx-background-color: WHITE;" />
-                        <ListView fx:id="important" focusTraversable="false" layoutX="443.0" layoutY="206.0" prefHeight="458.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
+                        <ListView fx:id="task_id" layoutX="37.0" layoutY="234.0" prefHeight="430.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
+                        <ListView fx:id="task_name" layoutX="85.0" layoutY="234.0" prefHeight="430.0" prefWidth="192.0" style="-fx-background-color: WHITE;" />
+                        <ListView fx:id="category" layoutX="278.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;" />
+                        <ListView fx:id="important" focusTraversable="false" layoutX="443.0" layoutY="234.0" prefHeight="430.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
                             <cursor>
                                 <Cursor fx:constant="DEFAULT" />
                             </cursor></ListView>
@@ -41,6 +42,88 @@
                         <Button layoutX="407.0" layoutY="48.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tìm kiếm" />
                         <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="356.0" />
                         <ComboBox layoutX="312.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
+                        <Label layoutX="37.0" layoutY="211.0" prefHeight="19.0" prefWidth="48.0" text="ID" textOverrun="CLIP">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                            <textFill>
+                                <LinearGradient endX="1.0" endY="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="0.516099491905944">
+                                            <color>
+                                                <Color red="0.17489999532699585" green="0.21626000106334686" blue="0.33000001311302185" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="0.6349107881365946">
+                                            <color>
+                                                <Color red="0.17489999532699585" green="0.21884499490261078" blue="0.33000001311302185" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </textFill></Label>
+                        <Label layoutX="85.0" layoutY="213.0" prefHeight="16.0" prefWidth="192.0" text="Name">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                            <textFill>
+                                <LinearGradient endX="1.0" endY="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="0.7649474181732249">
+                                            <color>
+                                                <Color red="0.17489999532699585" green="0.21626000106334686" blue="0.33000001311302185" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </textFill>
+                        </Label>
+                        <Label layoutX="277.0" layoutY="213.0" prefHeight="16.0" prefWidth="166.0" text="Category">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                            <textFill>
+                                <LinearGradient endX="1.0" endY="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="0.8018137776202293">
+                                            <color>
+                                                <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </textFill>
+                        </Label>
                     </children>
                 </Pane>
             </left>

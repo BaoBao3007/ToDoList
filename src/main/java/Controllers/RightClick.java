@@ -40,7 +40,7 @@ public class RightClick {
             }
         });
 
-        listContexMenu.getItems().addAll(deleteMenuItem,editMenuItem);
+        listContexMenu.getItems().addAll(deleteMenuItem,editMenuItem,addReminder);
         return listContexMenu;
     }
 
