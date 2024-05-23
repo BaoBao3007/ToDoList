@@ -54,6 +54,10 @@ public class Dashboard implements Initializable {
                 stage.setMaximized(true);
         });
 
+        Exit.setOnMouseClicked(e -> {
+            stage = (Stage) window.getScene().getWindow();
+            stage.close();
+        });
 
 
         try {
