@@ -1,49 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<Pane prefHeight="636.0" prefWidth="738.0" style="-fx-background-color: WHITE;" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="Controllers.Trash">
+<Pane prefHeight="749.0" prefWidth="738.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Trash">
    <children>
-      <BorderPane prefHeight="636.0" prefWidth="738.0">
-         <top>
-            <Pane prefHeight="79.0" prefWidth="738.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="749.0" prefWidth="738.0" style="-fx-background-color: White;">
+         <left>
+            <Pane prefHeight="749.0" prefWidth="502.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="29.0" layoutY="19.0" text="Trash">
+                  <Label layoutX="39.0" layoutY="140.0" text="Trash">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="32.0" layoutY="61.0" prefHeight="6.0" prefWidth="660.0" />
-               </children>
-            </Pane>
-         </top>
-         <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
-               <children>
-                  <ListView fx:id="task_id" layoutX="38.0" layoutY="89.0" prefHeight="458.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="task_name" layoutX="95.0" layoutY="91.0" prefHeight="455.0" prefWidth="200.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="category" layoutX="303.0" layoutY="90.0" prefHeight="458.0" prefWidth="170.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="important" layoutX="487.0" layoutY="89.0" prefHeight="458.0" prefWidth="55.0" style="-fx-background-color: WHITE;" />
-
-               </children>
-            </Pane>
-         </center>
-         <bottom>
-            <Pane prefHeight="50.0" prefWidth="738.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox layoutX="20.0" layoutY="14.0" prefHeight="23.0" prefWidth="676.0">
+                  <ListView fx:id="task_id" layoutX="37.0" layoutY="234.0" prefHeight="430.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="task_name" layoutX="85.0" layoutY="234.0" prefHeight="430.0" prefWidth="192.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="category" layoutX="278.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="important" focusTraversable="false" layoutX="443.0" layoutY="234.0" prefHeight="430.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></ListView>
+                  <Separator layoutX="39.0" layoutY="183.0" prefHeight="0.0" prefWidth="443.0" />
+                  <HBox layoutX="74.0" layoutY="678.0" prefHeight="23.0" prefWidth="373.0">
                      <children>
-                        <Label style="-fx-background-color: white" text="Due: ">
-                           <font>
-                              <Font name="Times New Roman bold" size="20" />
-                           </font>
-                        </Label>
                         <Label fx:id="deadlineLabel" style="-fx-background-color: white">
                            <font>
                               <Font name="Times New Roman bold" size="20" />
@@ -51,8 +34,114 @@
                         </Label>
                      </children>
                   </HBox>
+                  <Label layoutX="14.0" layoutY="678.0" style="-fx-background-color: white" text="Due: ">
+                     <font>
+                        <Font name="Times New Roman bold" size="20" />
+                     </font>
+                  </Label>
+                  <Button layoutX="407.0" layoutY="48.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="74.0" text="Tìm kiếm" />
+                  <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="356.0" />
+                  <ComboBox layoutX="312.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
+                  <Label layoutX="37.0" layoutY="211.0" prefHeight="19.0" prefWidth="48.0" text="ID" textOverrun="CLIP">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.516099491905944">
+                                 <color>
+                                    <Color red="0.17489999532699585" green="0.21626000106334686" blue="0.33000001311302185" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.6349107881365946">
+                                 <color>
+                                    <Color red="0.17489999532699585" green="0.21884499490261078" blue="0.33000001311302185" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill></Label>
+                  <Label layoutX="85.0" layoutY="213.0" prefHeight="16.0" prefWidth="192.0" text="Name">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.7649474181732249">
+                                 <color>
+                                    <Color red="0.17489999532699585" green="0.21626000106334686" blue="0.33000001311302185" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Label>
+                  <Label layoutX="277.0" layoutY="213.0" prefHeight="16.0" prefWidth="166.0" text="Category">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.8018137776202293">
+                                 <color>
+                                    <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Label>
                </children>
             </Pane>
-         </bottom></BorderPane>
+         </left>
+         <right>
+            <Pane prefHeight="636.0" prefWidth="215.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="38.0" layoutY="170.0" text="Upcomming Task">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="24.0" layoutY="202.0" prefHeight="458.0" prefWidth="179.0" style="-fx-background-color: #cafaf4; -fx-background-radius: 20px;">
+                     <children>
+                        <Label fx:id="DescLabel" alignment="TOP_LEFT" layoutX="7.0" layoutY="25.0" prefHeight="419.0" prefWidth="165.0" wrapText="true" />
+                     </children></Pane>
+               </children>
+            </Pane>
+         </right>
+      </BorderPane>
    </children>
 </Pane>
