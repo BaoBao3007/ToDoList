@@ -2,6 +2,7 @@ package Dao;
 
 
 import Model.Task;
+import Model.Category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -91,4 +92,32 @@ public class TaskDao {
         }
         return 0;
     }
+    public List<Task> getTasksByCategory(String categoryName) {
+        String sql = "SELECT * FROM Task t INNER JOIN Category c ON t.category_id = c.category_id WHERE c.category_name = ?";
+        List<Task> tasks = new ArrayList<>();
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, categoryName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int taskId = resultSet.getInt("t.task_id");
+                String taskName = resultSet.getString("t.task_name");
+                String description = resultSet.getString("t.description");
+                LocalDate dueDate = resultSet.getDate("t.due_date").toLocalDate();
+                int categoryId = resultSet.getInt("t.category_id");
+                boolean important = resultSet.getBoolean("t.important");
+                String username = resultSet.getString("t.username");
+
+                Task task = new Task(taskId, taskName, description, dueDate, categoryId, important, username);
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
+
 }
