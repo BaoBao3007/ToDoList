@@ -32,7 +32,7 @@ public class TaskController   {
     @FXML
     public Label DescLabel;
     @FXML
-    public ListView status;
+    private ListView<Task> status;
 
     private List<Task> Tasks;
 
@@ -86,6 +86,7 @@ public class TaskController   {
         task_name.setItems(tasks);
         important.setItems(tasks);
         category.setItems(tasks);
+        status.setItems(tasks);
     }
     public void cell(){
         List<Task> tasks = TaskDao.getInstance().getAllTasks();
@@ -136,7 +137,6 @@ public class TaskController   {
                 }
             }
         });
-
         task_name.setItems(observableTasks);
         task_name.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -213,11 +213,10 @@ public class TaskController   {
                     @Override
                     protected void updateItem(Task item, boolean empty) {
                         super.updateItem(item, empty);
-                        if(empty) {
+                        if(empty || item == null) {
                             setText(null);
                         } else {
-                            Task selectedItem = (Task) status.getSelectionModel().getSelectedItem();
-                            String status =selectedItem.getStatus();
+                            String status = item.getStatus();
                             setText(status);
                         }
                     }
@@ -233,6 +232,7 @@ public class TaskController   {
                 return cell;
             }
         });
+
         status.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
             @Override
             public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {
