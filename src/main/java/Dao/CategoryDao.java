@@ -31,4 +31,20 @@ public class CategoryDao {
         }
         return categoryName;
     }
+    public List<String> getAllCategories() {
+        List<String> categories = new ArrayList<>();
+        String sql = "SELECT category_name FROM Category";
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                String categoryName = resultSet.getString("category_name");
+                categories.add(categoryName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
+    }
 }

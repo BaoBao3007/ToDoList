@@ -6,11 +6,11 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="754.0" prefWidth="839.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ImportantController">
+<Pane prefHeight="754.0" prefWidth="873.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ImportantController">
    <children>
-      <BorderPane prefHeight="752.0" prefWidth="837.0" style="-fx-background-color: White;">
+      <BorderPane prefHeight="749.0" prefWidth="738.0" style="-fx-background-color: White;">
          <left>
-            <Pane prefHeight="750.0" prefWidth="612.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
+            <Pane prefHeight="750.0" prefWidth="651.0" style="-fx-background-color: WHITE;" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="39.0" layoutY="140.0" text="Important">
                      <font>
@@ -18,14 +18,15 @@
                      </font>
                   </Label>
                   <ListView fx:id="task_id" layoutX="37.0" layoutY="234.0" prefHeight="430.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="task_name" layoutX="85.0" layoutY="234.0" prefHeight="430.0" prefWidth="192.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="category" layoutX="278.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="status" layoutX="443.0" layoutY="234.0" prefHeight="430.0" prefWidth="117.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="important" focusTraversable="false" layoutX="560.0" layoutY="234.0" prefHeight="430.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
+                  <ListView fx:id="task_name" layoutX="85.0" layoutY="234.0" prefHeight="430.0" prefWidth="192.0" style="-fx-background-color: WHITE;"/>
+                  <ListView fx:id="category" layoutX="278.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;"/>
+                  <ListView fx:id="status" layoutX="443.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;"/>
+
+                  <ListView fx:id="important" focusTraversable="false" layoutX="608.0" layoutY="234.0" prefHeight="430.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
                      <cursor>
                         <Cursor fx:constant="DEFAULT" />
                      </cursor></ListView>
-                  <Separator layoutX="39.0" layoutY="183.0" prefHeight="0.0" prefWidth="560.0" />
+                  <Separator layoutX="39.0" layoutY="183.0" prefHeight="0.0" prefWidth="608.0" />
                   <HBox layoutX="74.0" layoutY="678.0" prefHeight="23.0" prefWidth="373.0">
                      <children>
                         <Label fx:id="deadlineLabel" style="-fx-background-color: white">
@@ -40,9 +41,9 @@
                         <Font name="Times New Roman bold" size="20" />
                      </font>
                   </Label>
-                  <Button layoutX="447.0" layoutY="50.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="150.0" text="Tìm kiếm" />
-                  <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="376.0" />
-                  <ComboBox layoutX="447.0" layoutY="145.0" prefHeight="25.0" prefWidth="151.0" />
+                  <Button layoutX="478.0" layoutY="50.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" text="Tìm kiếm" />
+                  <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="425.0" />
+                  <ComboBox fx:id="categoryCombobox" layoutX="475.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
                   <Label layoutX="37.0" layoutY="211.0" prefHeight="19.0" prefWidth="48.0" text="ID" textOverrun="CLIP">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
@@ -111,33 +112,7 @@
                                     <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
                                  </color>
                               </Stop>
-                              <Stop offset="0.7557308283114736">
-                                 <color>
-                                    <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
-                  </Label>
-                  <Label layoutX="447.0" layoutY="213.0" text="Status">
-                     <font>
-                        <Font name="Arial Bold" size="14.0" />
-                     </font>
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="0.7557308283114736">
+                              <Stop offset="0.8018137776202293">
                                  <color>
                                     <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
                                  </color>
@@ -155,14 +130,14 @@
             </Pane>
          </left>
          <right>
-            <Pane prefHeight="750.0" prefWidth="219.0" BorderPane.alignment="CENTER">
+            <Pane prefHeight="636.0" prefWidth="215.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="68.0" layoutY="170.0" prefHeight="21.0" prefWidth="108.0" text="Description">
+                  <Label layoutX="38.0" layoutY="170.0" text="Upcomming Task">
                      <font>
                         <Font name="Arial Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="40.0" layoutY="202.0" prefHeight="458.0" prefWidth="163.0" style="-fx-background-color: #cafaf4; -fx-background-radius: 20px;">
+                  <Pane layoutX="24.0" layoutY="202.0" prefHeight="458.0" prefWidth="179.0" style="-fx-background-color: #cafaf4; -fx-background-radius: 20px;">
                      <children>
                         <Label fx:id="DescLabel" alignment="TOP_LEFT" layoutX="7.0" layoutY="25.0" prefHeight="419.0" prefWidth="165.0" wrapText="true" />
                      </children></Pane>

@@ -26,6 +26,8 @@ public class Today   {
     public Label DescLabel;
     @FXML
     public ListView status;
+    @FXML
+    public ComboBox categoryComboBox;
     private List<Task> Tasks;
 
     @FXML
