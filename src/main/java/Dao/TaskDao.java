@@ -113,6 +113,22 @@ public class TaskDao {
         }
         return 0;
     }
+    public int updateTaskStatus(int task_id, String status) {
+
+        String sql = "UPDATE task SET status = ? WHERE task_id = ?";
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, status);
+            statement.setInt(2, task_id);
+            statement.executeUpdate();
+            return 1;
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return 0;
+    }
+
     public List<Task> getTasksByCategory(String categoryName) {
         String sql = "SELECT * FROM Task t INNER JOIN Category c ON t.category_id = c.category_id WHERE c.category_name = ?";
         List<Task> tasks = new ArrayList<>();

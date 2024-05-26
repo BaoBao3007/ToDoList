@@ -47,13 +47,18 @@ public class Trash   {
         RightClick rc = new RightClick();
         listContexMenu = rc.ListContexMenu(task_name);
         cell();
-        synchronizeScrolling(task_name, task_id, category, important);
+        synchronizeScrolling(task_name, task_id, status,category, important);
 
     }
 
 
 
     public void cell(){
+        task_id.setFixedCellSize(30);
+        task_name.setFixedCellSize(30);
+        important.setFixedCellSize(30);
+        category.setFixedCellSize(30);
+        status.setFixedCellSize(30);
         List<Task> tasks = TaskDao.getInstance().getAllTasks();
         ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
         task_id.setItems(observableTasks);
@@ -174,29 +179,9 @@ public class Trash   {
         status.setCellFactory(new Callback<ListView<Task>, ListCell<Task>>() {
             @Override
             public ListCell<Task> call(ListView<Task> param) {
-                ListCell<Task> cell = new ListCell<Task>() {
 
-                    @Override
-                    protected void updateItem(Task item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if(empty) {
-                            setText(null);
-                        } else {
-                            Task selectedItem = (Task) status.getSelectionModel().getSelectedItem();
-                            String status =selectedItem.getStatus();
-                            setText(status);
-                        }
-                    }
-                };
-                cell.emptyProperty().addListener(
-                        (obs, wasEmpty, isNowEmpty) -> {
-                            if (isNowEmpty) {
-                                cell.setContextMenu(null);
-                            } else {
-                                cell.setContextMenu(listContexMenu);
-                            }
-                        });
-                return cell;
+
+                return new Trash.ComboBoxCell();
             }
         });
         status.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
@@ -323,7 +308,41 @@ public class Trash   {
         });
     }
 
+    private class ComboBoxCell extends ListCell<Task> {
+        private ComboBox<String> comboBox;
 
+        public ComboBoxCell() {
+            comboBox = new ComboBox<>();
+            comboBox.getItems().addAll("Processing", "Complete", "Late");
+            comboBox.setPrefWidth(149);
+            comboBox.valueProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    Task task = getItem();
+                    if (task != null) {
+                        task.setStatus(newValue);
+                        TaskDao.getInstance().updateTaskStatus(task.getTask_id(), newValue);
+
+                    }
+                }
+            });
+
+        }
+
+        @Override
+        protected void updateItem(Task item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (empty || item == null) {
+                setGraphic(null);
+                setText(null);
+            } else {
+                setGraphic(comboBox);
+                comboBox.setValue(item.getStatus());
+                comboBox.setPrefWidth(149);
+            }
+        }
+    }
 
     private void synchronizeScrolling(ListView<Task>... listViews) {
         for (ListView<Task> listView : listViews) {
