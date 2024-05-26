@@ -126,6 +126,32 @@
                                 </LinearGradient>
                             </textFill>
                         </Label>
+                        <Label layoutX="448.0" layoutY="213.0" text="Status">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                            <textFill>
+                                <LinearGradient endX="1.0" endY="1.0">
+                                    <stops>
+                                        <Stop>
+                                            <color>
+                                                <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="0.7495864350703062">
+                                            <color>
+                                                <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                                            </color>
+                                        </Stop>
+                                        <Stop offset="1.0">
+                                            <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                            </color>
+                                        </Stop>
+                                    </stops>
+                                </LinearGradient>
+                            </textFill>
+                        </Label>
                     </children>
                 </Pane>
             </left>
