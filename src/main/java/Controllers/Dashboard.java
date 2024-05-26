@@ -117,6 +117,13 @@ public class Dashboard implements Initializable {
         contentArea.getChildren().setAll(fxml);
 
     }
+    @FXML
+    private void Reminder(javafx.event.ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Reminder.fxml"));
+        contentArea.getChildren().removeAll();
+        contentArea.getChildren().setAll(fxml);
+
+    }
 
     @FXML
     void Addnew(ActionEvent event) throws Exception {

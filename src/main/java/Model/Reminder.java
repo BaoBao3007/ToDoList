@@ -17,8 +17,6 @@ public class Reminder {
         this.sent = false;
     }
 
-    // Getters and setters
-
     public int getReminderId() {
         return reminderId;
     }
