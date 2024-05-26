@@ -66,17 +66,37 @@ public class Task {
     private int category_id;
     private boolean important;
 
+    public LocalDate getCreation_date() {
+        return creation_date;
+    }
+
+    public void setCreation_date(LocalDate creation_date) {
+        this.creation_date = creation_date;
+    }
+
+    private LocalDate creation_date;
     private String username;
 
+    public String getStatus() {
+        return status;
+    }
 
-    public Task(int task_id, String task_name, String description, LocalDate due_date, int category_id, boolean important, String username) {
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    private String status;
+
+    public Task(int task_id, String task_name, String description, LocalDate due_date, int category_id, String status,boolean important, String username,LocalDate creation_date) {
         this.task_id = task_id;
         this.task_name = task_name;
         this.description = description;
+        this.status = status;
         this.due_date = due_date;
         this.category_id = category_id;
         this.important = important;
         this.username = username;
+        this.creation_date =creation_date;
     }
 
     public Task() {

@@ -33,12 +33,24 @@ public class TaskDao {
                 int taskId = resultSet.getInt("task_id");
                 String taskName = resultSet.getString("task_name");
                 String description = resultSet.getString("description");
-                LocalDate dueDate = resultSet.getDate("due_date").toLocalDate();
+                LocalDate dueDate = LocalDate.now();
+                if(resultSet.getDate("due_date") != null)
+                {
+                    dueDate = resultSet.getDate("due_date").toLocalDate();
+                }
+
+                LocalDate creation_date = LocalDate.now();
+
+                if(resultSet.getDate("creation_date") != null)
+                {
+                    creation_date = resultSet.getDate("creation_date").toLocalDate();
+                }
+                String status = resultSet.getString("status");
                 int categoryId = resultSet.getInt("category_id");
                 boolean important = resultSet.getBoolean("important");
                 String username = resultSet.getString("username");
 
-                Task task = new Task(taskId, taskName, description, dueDate, categoryId, important, username);
+                Task task = new Task(taskId, taskName, description, dueDate,categoryId,status,  important, username,creation_date);
                 tasks.add(task);
             }
         } catch (SQLException e) {
@@ -59,11 +71,13 @@ public class TaskDao {
                 String taskName = resultSet.getString("task_name");
                 String description = resultSet.getString("description");
                 LocalDate dueDate = resultSet.getDate("due_date").toLocalDate();
+                LocalDate creation_date = resultSet.getDate("creation_date").toLocalDate();
                 int categoryId = resultSet.getInt("category_id");
+                String status = resultSet.getString("status");
                 boolean important = resultSet.getBoolean("important");
                 String username = resultSet.getString("username");
 
-                Task task = new Task(taskId, taskName, description, dueDate, categoryId, important, username);
+                Task task = new Task(taskId, taskName, description, dueDate, categoryId,status,  important, username,creation_date);
                 tasks.add(task);
             }
         } catch (SQLException e) {

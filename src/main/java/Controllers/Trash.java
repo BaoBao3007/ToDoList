@@ -21,10 +21,11 @@ import java.util.List;
 import javafx.scene.input.MouseButton;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-
 public class Trash   {
     @FXML
     public Label DescLabel;
+    @FXML
+    public ListView status;
     private List<Task> Tasks;
 
     @FXML
@@ -96,6 +97,7 @@ public class Trash   {
                         task_name.getSelectionModel().select(selectedIndex);
                         category.getSelectionModel().select(selectedIndex);
                         important.getSelectionModel().select(selectedIndex);
+                        status.getSelectionModel().select(selectedIndex);
                     }
                 }
             }
@@ -139,6 +141,13 @@ public class Trash   {
             }
         });
 
+
+
+
+
+
+
+
         task_name.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
             @Override
             public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {
@@ -153,11 +162,58 @@ public class Trash   {
                         task_id.getSelectionModel().select(selectedIndex);
                         category.getSelectionModel().select(selectedIndex);
                         important.getSelectionModel().select(selectedIndex);
+                        status.getSelectionModel().select(selectedIndex);
                     }
                 }
             }
         });
 
+        status.setItems(observableTasks);
+        status.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        status.setCellFactory(new Callback<ListView<Task>, ListCell<Task>>() {
+            @Override
+            public ListCell<Task> call(ListView<Task> param) {
+                ListCell<Task> cell = new ListCell<Task>() {
+
+                    @Override
+                    protected void updateItem(Task item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if(empty) {
+                            setText(null);
+                        } else {
+                            Task selectedItem = (Task) status.getSelectionModel().getSelectedItem();
+                            String status =selectedItem.getStatus();
+                            setText(status);
+                        }
+                    }
+                };
+                cell.emptyProperty().addListener(
+                        (obs, wasEmpty, isNowEmpty) -> {
+                            if (isNowEmpty) {
+                                cell.setContextMenu(null);
+                            } else {
+                                cell.setContextMenu(listContexMenu);
+                            }
+                        });
+                return cell;
+            }
+        });
+        status.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
+            @Override
+            public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {
+                if(newValue != null) {
+
+                    int selectedIndex =status.getSelectionModel().getSelectedIndex();
+                    if (selectedIndex >= 0) {
+                        task_name.getSelectionModel().select(selectedIndex);
+                        task_id.getSelectionModel().select(selectedIndex);
+                        category.getSelectionModel().select(selectedIndex);
+                        important.getSelectionModel().select(selectedIndex);
+                    }
+                }
+            }
+        });
 
         important.setItems(observableTasks);
         important.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -213,6 +269,7 @@ public class Trash   {
                         task_name.getSelectionModel().select(selectedIndex);
                         task_id.getSelectionModel().select(selectedIndex);
                         category.getSelectionModel().select(selectedIndex);
+                        status.getSelectionModel().select(selectedIndex);
                     }
                 }
             }
@@ -259,6 +316,7 @@ public class Trash   {
                         task_name.getSelectionModel().select(selectedIndex);
                         task_id.getSelectionModel().select(selectedIndex);
                         important.getSelectionModel().select(selectedIndex);
+                        status.getSelectionModel().select(selectedIndex);
                     }
                 }
             }
