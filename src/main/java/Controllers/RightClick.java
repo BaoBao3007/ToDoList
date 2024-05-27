@@ -69,12 +69,10 @@ public class RightClick {
                     if (TaskDao.getInstance().deleteTaskAndSaveToDeleted(task, deletionDate)) {
                         showAlert("Thành công", "Đã xóa task và chuyển vào thùng rác.");
 
-                        // Cập nhật ListView trên JavaFX Application Thread
+
                         Platform.runLater(() -> listView.getItems().remove(task));
 
-                        // Gọi phương thức refreshListView (tự triển khai) để làm mới danh sách task
-                        // Ví dụ:
-                        // refreshListView();
+
                     } else {
                         showAlert("Lỗi", "Không thể xóa task.");
                     }
@@ -92,7 +90,7 @@ private void openEditTaskForm(Task selectedTask) throws IOException {
     Parent root = loader.load();
 
     try {
-        // Truyền task đã chọn vào EditTaskController
+
         EditTaskController editTaskController = loader.getController();
         editTaskController.setTask(selectedTask);
         editTaskController.initializeTaskData();
@@ -125,12 +123,10 @@ private void openEditTaskForm(Task selectedTask) throws IOException {
                     if (TaskDao.getInstance().deleteTaskAndSaveToDeleted(task, deletionDate)) {
                         showAlert("Thành công", "Đã xóa task và chuyển vào thùng rác.");
 
-                        // Cập nhật ListView trên JavaFX Application Thread
+
                         Platform.runLater(() -> listView.getItems().remove(task));
 
-                        // Gọi phương thức refreshListView (tự triển khai) để làm mới danh sách task
-                        // Ví dụ:
-                        // refreshListView();
+
                     } else {
                         showAlert("Lỗi", "Không thể xóa task.");
                     }

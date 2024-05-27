@@ -224,31 +224,35 @@ public class TaskDao {
     }
     public boolean deleteTaskAndSaveToDeleted(Task task, LocalDateTime deletionDate) throws SQLException {
         String deleteQuery = "DELETE FROM Task WHERE task_id = ?";
-        String insertQuery = "INSERT INTO Deleted_Task (task_id, task_name, description, due_date, category_id, important, username, deletion_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; // Loại bỏ creation_date
+        String insertQuery = "INSERT INTO Deleted_Task (task_id, task_name, description, due_date, category_id, important, username, deletion_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = dbConnection.openConnection();
-             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
-             PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+        try (Connection connection = dbConnection.openConnection()) {
+            connection.setAutoCommit(false); // Bắt đầu
 
-            // Bắt đầu
-            connection.setAutoCommit(false);
+            try (PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
+                 PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
 
-            try {
-                // Xóa task
+                // Xóa task khỏi bảng Task trước
                 deleteStmt.setInt(1, task.getTask_id());
-                //deleteStmt.executeUpdate(); //không được mở nó ra plssss
+                int rowsDeleted = deleteStmt.executeUpdate();
 
-                // Lưu vào Deleted_Task (Đã sửa)
-                insertStmt.setInt(1, task.getTask_id());
-                insertStmt.setString(2, task.getTask_name());
-                insertStmt.setString(3, task.getDescription());
-                insertStmt.setObject(4, task.getDue_date() != null ? task.getDue_date() : null);
-                insertStmt.setInt(5, task.getCategory_id());
-                insertStmt.setBoolean(6, task.isImportant());
-                insertStmt.setString(7, task.getUsername());
-                insertStmt.setObject(8, deletionDate);
+                if (rowsDeleted > 0) { // Kiểm tra xem có task nào bị xóa không
+                    // Lưu vào Deleted_Task
+                    insertStmt.setInt(1, task.getTask_id());
+                    insertStmt.setString(2, task.getTask_name());
+                    insertStmt.setString(3, task.getDescription());
+                    insertStmt.setObject(4, task.getDue_date() != null ? task.getDue_date() : null);
+                    insertStmt.setInt(5, task.getCategory_id());
+                    insertStmt.setBoolean(6, task.isImportant());
+                    insertStmt.setString(7, task.getUsername());
+                    insertStmt.setObject(8, deletionDate);
 
-                insertStmt.executeUpdate();
+                    insertStmt.executeUpdate();
+                } else {
+
+                    connection.rollback();
+                    return false;
+                }
 
                 // Commit nếu thành công
                 connection.commit();
@@ -256,8 +260,11 @@ public class TaskDao {
             } catch (SQLException e) {
                 // Rollback nếu có lỗi
                 connection.rollback();
+                System.err.println("Lỗi SQL: " + e.getMessage());
+                e.printStackTrace();
                 throw e;
             }
         }
     }
+
 }

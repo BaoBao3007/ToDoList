@@ -43,7 +43,6 @@
                 <TextArea fx:id="DetailsArea" layoutX="149.0" layoutY="79.0" prefHeight="149.0" prefWidth="421.0" wrapText="true" />
                 <DatePicker fx:id="Deadline" layoutX="148.0" layoutY="248.0" prefHeight="25.0" prefWidth="194.0" />
                 <Label layoutX="31.0" layoutY="252.0" text="Deadline" />
-                <ComboBox fx:id="Categories2" layoutX="386.0" layoutY="248.0" prefHeight="25.0" prefWidth="183.0" promptText="Catagories" />
                 <ComboBox fx:id="categoryComboBox" layoutX="148.0" layoutY="294.0" prefHeight="25.0" prefWidth="170.0" />
                 <Button layoutX="492.0" layoutY="319.0" onAction="#cancel" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: F2F2F2;" text="Cancel" />
                 <Button layoutX="394.0" layoutY="319.0" onAction="#ok" prefHeight="25.0" prefWidth="78.0" style="-fx-background-color: D1E4F9;" text="OK" />

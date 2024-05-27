@@ -68,12 +68,6 @@ public class AddNewTaskController implements Initializable {
 
         });
         loadCategories();
-
-
-
-        Categories.getItems().setAll("Waiting","Someday","Important");
-
-
     }
     private void loadCategories() {
         try {
@@ -119,10 +113,9 @@ public class AddNewTaskController implements Initializable {
             String taskName = Description.getText();
             String details = DetailsArea.getText();
             LocalDate deadline = Deadline.getValue();
-            String category = Categories.getValue().toString();
             Category selectedCategory = categoryComboBox.getValue();
 
-            if (taskName.isEmpty() || details.isEmpty() || deadline == null || category == null) {
+            if (taskName.isEmpty() || details.isEmpty() || deadline == null) {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.");
                 return;
             }
@@ -161,7 +154,7 @@ public class AddNewTaskController implements Initializable {
 
     }
     public void Error(){
-        if(Deadline.getValue()==null || Description.getText().isEmpty() || DetailsArea.getText().isEmpty() || Categories.getValue() == null){ }
+        if(Deadline.getValue()==null || Description.getText().isEmpty() || DetailsArea.getText().isEmpty()){ }
     }
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

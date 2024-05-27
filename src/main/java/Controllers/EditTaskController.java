@@ -35,8 +35,6 @@ public class EditTaskController {
     @FXML
     private ComboBox<Category> Categories;
     @FXML
-    private ComboBox Categories2;
-    @FXML
     private Button okButton;
     @FXML
     private Button cancelButton;
@@ -64,7 +62,6 @@ public class EditTaskController {
             e.printStackTrace();
             showAlert("Lỗi", "Xảy ra lỗi khi lấy thông tin category.");
         }
-        Categories2.getItems().setAll("Waiting","Someday","Important");
     }
     @FXML
     private void ok(ActionEvent event) {
