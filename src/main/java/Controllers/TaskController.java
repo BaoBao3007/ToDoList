@@ -7,6 +7,8 @@ import Dao.ReminderDao;
 import Dao.TaskDao;
 import Model.Reminder;
 import Model.Task;
+
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -53,19 +55,34 @@ public class TaskController   {
     @FXML
     private ComboBox<String> categoryComboBox;
 
+    private static TaskController instance;
+
+    public TaskController() {
+        instance = this;
+    }
+    public static TaskController getInstance() {
+        return instance;
+    }
+    public void refreshTaskList() {
+        // Load lại danh sách task từ database
+        List<Task> tasks = TaskDao.getInstance().getAllTasks();
+        ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+        updateListViews(observableTasks);
+    }
     public void initialize() {
         loadCategories();
         categoryComboBox.setOnAction(event -> {
             String selectedCategory = categoryComboBox.getValue();
             if (selectedCategory.equals("All tasks")) {
-                List<Task> allTasks = TaskDao.getInstance().getAllTasks();
-                ObservableList<Task> observableAllTasks = FXCollections.observableArrayList(allTasks);
-                updateListViews(observableAllTasks);
+                List<Task> tasks = TaskDao.getInstance().getAllTasks();
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
             } else {
-                List<Task> tasksByCategory = TaskDao.getInstance().getTasksByCategory(selectedCategory);
-                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasksByCategory);
-                updateListViews(observableTasks);
+                List<Task> tasks = TaskDao.getInstance().getAllTasks();
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
             }
+            TaskDao.getInstance();
         });
         RightClick rc = new RightClick();
         listContexMenu = rc.ListContexMenu(task_name);

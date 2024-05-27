@@ -1,5 +1,7 @@
 package Controllers;
 
+import Dao.DatabaseOperations;
+import Model.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +19,10 @@ import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import javafx.scene.control.Alert;
 
 public class LoginController implements Initializable {
 
@@ -34,38 +40,73 @@ public class LoginController implements Initializable {
 
     @FXML
     private ImageView exit;
+    private Stage registerStage; // Biến lưu trữ stage cho màn hình đăng ký
+    private Parent registerRoot; // Biến lưu trữ root node của màn hình đăng ký
+
+    private DatabaseOperations db;
 
     double x,y=0;
 
     @FXML
     void signup(ActionEvent event) {
-        if(txtuser.getText().equals("admin") && txtemail.getText().equals("123") && txtpass.getText().equals("123")){
+        String username = txtuser.getText();
+        String password = txtpass.getText();
+        String email = txtemail.getText();
+
+        if (authenticateUser(username, password, email)) { // Sử dụng hàm authenticateUser đã có
             try {
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
-
                 stage.close();
-
+                GlobalData.currentUsername = username; // Lưu username vào biến toàn cục
                 Dash();
 
-
             } catch (Exception e) {
-                e.printStackTrace();
+                e.printStackTrace(); // Xử lý exception (nếu có) khi chuyển sang Dashboard
             }
-        }else{
+        } else {
+            // Xử lý khi đăng nhập thất bại
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.getDialogPane().setContentText("Tài khoản hoặc mật khẩu không đúng");
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK); // Chỉ cần nút OK
             dialog.showAndWait();
         }
-
     }
+
+
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         exit.setOnMouseClicked(e -> System.exit(0));
+        try {
+            db = new DatabaseOperations();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Xảy ra lỗi khi kết nối đến cơ sở dữ liệu."); // Hoặc xử lý lỗi theo cách khác
+        }
     }
+    private boolean authenticateUser(String username, String password, String email) {
+        try {
+            String query = "SELECT * FROM User WHERE username = '" + username + "' AND password = '" + password + "' AND email = '" + email + "'";
+            ResultSet resultSet = db.executeQuery(query);
+            return resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Xảy ra lỗi khi kết nối đến cơ sở dữ liệu.");
+            return false;
+        } finally {
+            db.close();
+        }
+    }
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR); // Hoặc AlertType.INFORMATION tùy thuộc vào loại thông báo
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
     public void Dash()throws Exception{
 
@@ -88,5 +129,16 @@ public class LoginController implements Initializable {
     }
 
 
-
+    @FXML
+    void register(ActionEvent event) throws Exception {
+        if (registerRoot == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Register.fxml"));
+            registerRoot = loader.load();
+            registerStage = new Stage();
+            registerStage.initStyle(StageStyle.UNDECORATED);
+        }
+        registerStage.setScene(new Scene(registerRoot));
+        registerStage.show();
+         ((Node)(event.getSource())).getScene().getWindow().hide();
+    }
 }

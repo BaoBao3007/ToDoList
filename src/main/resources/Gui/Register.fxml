@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane stylesheets="@../Style/style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.RegisterController">
+    <left>
+        <Pane prefHeight="400.0" prefWidth="300.0" styleClass="linear-grad" BorderPane.alignment="CENTER">
+            <children>
+                <Label layoutX="14.0" layoutY="12.0" prefHeight="29.0" prefWidth="87.0" text="#Nhóm 3" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Black" size="18.0" />
+                    </font>
+                </Label>
+                <Label layoutX="28.0" layoutY="131.0" prefHeight="54.0" prefWidth="246.0" text="TO-DO-LIST" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Black" size="36.0" />
+                    </font>
+                </Label>
+                <Label layoutX="35.0" layoutY="185.0" prefHeight="26.0" prefWidth="207.0" text="javafx + mysql" textFill="WHITE" wrapText="true" />
+            </children></Pane>
+    </left>
+   <center>
+        <Pane fx:id="Proot" style="-fx-background-color: White;" BorderPane.alignment="CENTER">
+            <children>
+                <Button layoutX="14.0" layoutY="275.0" onAction="#backlogin" prefHeight="37.0" prefWidth="124.0" style="-fx-background-color: #71D9B6; -fx-background-radius: 50px;" text="BACK SIGNUP" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Button>
+                <TextField fx:id="txtfullname" layoutX="70.0" layoutY="59.0" promptText="Full name" />
+                <TextField fx:id="txtuser" layoutX="70.0" layoutY="101.0" promptText="User name" />
+                <TextField fx:id="txtemail" layoutX="70.0" layoutY="144.0" promptText="Email" />
+                <Label layoutX="70.0" layoutY="23.0" text="REGISTER">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <PasswordField fx:id="txtpass" layoutX="70.0" layoutY="185.0" promptText="Password" />
+                <PasswordField fx:id="txtenterpass" layoutX="70.0" layoutY="231.0" promptText="Enter the password" />
+                <ImageView fx:id="exit" fitHeight="24.0" fitWidth="22.0" layoutX="276.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/close.png" />
+                    </image>
+                </ImageView>
+                <Button layoutX="182.0" layoutY="275.0" onAction="#register" prefHeight="37.0" prefWidth="104.0" style="-fx-background-color: #71D9B6; -fx-background-radius: 50px;" text="REGISTER" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Button>
+            </children></Pane>
+   </center>
+</BorderPane>

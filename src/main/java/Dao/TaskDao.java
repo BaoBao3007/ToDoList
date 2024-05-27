@@ -2,7 +2,6 @@ package Dao;
 
 
 import Model.Task;
-import Model.Category;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,15 +10,31 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import java.time.LocalDateTime;
+
 
 public class TaskDao {
+    private static TaskDao instance;
+    private DatabaseOperations db;
     private MySQLDataAccess dbConnection;
+    private Map<String, Integer> categoryCache = new HashMap<>();
 
-    public TaskDao() {
-        dbConnection = new MySQLDataAccess();
+    private TaskDao() {
+        try {
+            db = new DatabaseOperations();
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
     }
-    private static TaskDao instance = new TaskDao();
+
     public static TaskDao getInstance() {
+        if (instance == null) {
+            instance = new TaskDao();
+        }
         return instance;
     }
     public List<Task> getAllTasks() {
@@ -146,6 +161,91 @@ public class TaskDao {
         }
 
         return tasks;
+    }
+    public void addTask(Task task) throws SQLException {
+        String query = "INSERT INTO Task (task_name, description, due_date, category_id, important, username, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement pst = db.prepareStatement(query)) { // Thay đổi ở đây
+            pst.setString(1, task.getTask_name());
+            pst.setString(2, task.getDescription());
+            pst.setDate(3, java.sql.Date.valueOf(task.getDue_date()));
+            pst.setInt(4, task.getCategory_id());
+            pst.setBoolean(5, task.isImportant());
+            pst.setString(6, task.getUsername());
+            pst.setDate(7, java.sql.Date.valueOf(task.getCreation_date()));
+            pst.executeUpdate();
+        }
+    }
+    public boolean updateTask(Task task) {
+        String sql = "UPDATE Task SET task_name = ?, description = ?, due_date = ?, category_id = ? WHERE task_id = ?";
+        try (Connection conn = dbConnection.openConnection();
+             PreparedStatement stmt = db.prepareStatement(sql)) {
+
+            stmt.setString(1, task.getTask_name());
+            stmt.setString(2, task.getDescription());
+            stmt.setDate(3, java.sql.Date.valueOf(task.getDue_date()));
+            stmt.setInt(4, task.getCategory_id());
+            stmt.setInt(5, task.getTask_id());
+            int rowsUpdated = stmt.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int getCategoryIdByName(String categoryName) throws SQLException {
+        String query = "SELECT category_id FROM Category WHERE category_name = ?";
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement pst = connection.prepareStatement(query)) { // Sử dụng prepareStatement từ dbConnection
+            pst.setString(1, categoryName);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("category_id");
+            }
+        }
+        return -1;
+    }
+    public boolean deleteTaskAndSaveToDeleted(Task task, LocalDateTime deletionDate) throws SQLException {
+        String deleteQuery = "DELETE FROM Task WHERE task_id = ?";
+        String insertQuery = "INSERT INTO Deleted_Task (task_id, task_name, description, due_date, category_id, important, username, deletion_date, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection connection = dbConnection.openConnection()) {
+            connection.setAutoCommit(true); // Hoặc sử dụng commit thủ công
+
+            System.out.println(connection); // Kiểm tra kết nối
+            System.out.println(deleteQuery);
+            System.out.println(insertQuery);
+
+            try (PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
+                 PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
+
+                // Xóa task
+                deleteStmt.setInt(1, task.getTask_id());
+                deleteStmt.executeUpdate();
+
+                // Lưu vào Deleted_Task
+                insertStmt.setInt(1, task.getTask_id());
+                insertStmt.setString(2, task.getTask_name());
+                insertStmt.setString(3, task.getDescription());
+                insertStmt.setDate(4, java.sql.Date.valueOf(task.getDue_date()));
+                insertStmt.setInt(5, task.getCategory_id());
+                insertStmt.setBoolean(6, task.isImportant());
+                insertStmt.setString(7, task.getUsername());
+                insertStmt.setTimestamp(8, java.sql.Timestamp.valueOf(deletionDate)); // Lưu deletion_date
+                insertStmt.setTimestamp(9, java.sql.Timestamp.valueOf(task.getCreation_date().atStartOfDay()));
+                insertStmt.executeUpdate();
+
+                System.out.println("Task values: " + task.getTask_id() + ", " + task.getTask_name() + ", ..."); // In giá trị để kiểm tra
+
+                insertStmt.executeUpdate();
+                return true;
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
     }
 
 }

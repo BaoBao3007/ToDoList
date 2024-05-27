@@ -22,10 +22,10 @@
             <Label layoutX="35.0" layoutY="185.0" prefHeight="26.0" prefWidth="207.0" text="javafx + mysql" textFill="WHITE" wrapText="true" />
          </children></Pane>
    </left>
-   <right>
+   <center>
       <Pane fx:id="Proot" prefHeight="400.0" prefWidth="300.0" style="-fx-background-color: White;" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="100.0" layoutY="291.0" onAction="#signup" prefHeight="33.0" prefWidth="100.0" style="-fx-background-color: #71D9B6; -fx-background-radius: 50px;" text="SIGNUP" textFill="WHITE">
+            <Button layoutX="14.0" layoutY="257.0" onAction="#signup" prefHeight="37.0" prefWidth="104.0" style="-fx-background-color: #71D9B6; -fx-background-radius: 50px;" text="SIGNUP" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
@@ -42,6 +42,10 @@
                   <Image url="@../img/close.png" />
                </image>
             </ImageView>
+            <Button layoutX="183.0" layoutY="257.0" onAction="#register" prefHeight="37.0" prefWidth="104.0" style="-fx-background-color: #71D9B6; -fx-background-radius: 50px;" text="REGISTER" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Button>
          </children></Pane>
-   </right>
+   </center>
 </BorderPane>
