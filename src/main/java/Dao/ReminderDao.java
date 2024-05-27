@@ -181,5 +181,87 @@ public class ReminderDao {
             scheduler.shutdown();
         }
     }
+    public List<Task> getDeletedTasks() {
+        List<Task> deletedTasks = new ArrayList<>();
+        String query = "SELECT * FROM Task WHERE status = 'Deleted'";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                Task task = new Task(
+                        resultSet.getInt("task_id"),
+                        resultSet.getString("task_name"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("due_date").toLocalDate(),
+                        resultSet.getInt("category_id"),
+                        resultSet.getString("status"),
+                        resultSet.getBoolean("important"),
+                        resultSet.getString("username"),
+                        resultSet.getDate("creation_date").toLocalDate()
+                );
+                deletedTasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return deletedTasks;
+    }
+
+    public List<Task> getTasksByDate(LocalDate date) {
+        List<Task> tasks = new ArrayList<>();
+        String query = "SELECT * FROM Task WHERE due_date = ?";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDate(1, Date.valueOf(date));
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Task task = new Task(
+                        resultSet.getInt("task_id"),
+                        resultSet.getString("task_name"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("due_date").toLocalDate(),
+                        resultSet.getInt("category_id"),
+                        resultSet.getString("status"),
+                        resultSet.getBoolean("important"),
+                        resultSet.getString("username"),
+                        resultSet.getDate("creation_date").toLocalDate()
+                );
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tasks;
+    }
+
+    public void deleteReminder(Reminder reminder) {
+        String query = "DELETE FROM Reminder WHERE reminder_id = ?";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, reminder.getReminderId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public String getTaskNameByTaskId(int taskId) {
+        String query = "SELECT t.task_name FROM Task t INNER JOIN Reminder r ON t.task_id = r.task_id WHERE t.task_id = ?";
+        String taskName = null;
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, taskId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                taskName = resultSet.getString("task_name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return taskName;
+    }
 }
 

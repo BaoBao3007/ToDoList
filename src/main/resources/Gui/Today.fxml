@@ -18,9 +18,9 @@
                      </font>
                   </Label>
                   <ListView fx:id="task_id" layoutX="37.0" layoutY="234.0" prefHeight="430.0" prefWidth="48.0" style="-fx-background-color: WHITE;" />
-                  <ListView fx:id="task_name" layoutX="85.0" layoutY="234.0" prefHeight="430.0" prefWidth="192.0" style="-fx-background-color: WHITE;"/>
-                  <ListView fx:id="category" layoutX="278.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;"/>
-                  <ListView fx:id="status" layoutX="443.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;"/>
+                  <ListView fx:id="task_name" layoutX="85.0" layoutY="234.0" prefHeight="430.0" prefWidth="192.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="category" layoutX="278.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;" />
+                  <ListView fx:id="status" layoutX="443.0" layoutY="234.0" prefHeight="430.0" prefWidth="165.0" style="-fx-background-color: WHITE;" />
 
                   <ListView fx:id="important" focusTraversable="false" layoutX="608.0" layoutY="234.0" prefHeight="430.0" prefWidth="34.0" style="-fx-background-color: WHITE;">
                      <cursor>
@@ -43,7 +43,7 @@
                   </Label>
                   <Button layoutX="478.0" layoutY="50.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" text="Tìm kiếm" />
                   <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="425.0" />
-                  <ComboBox fx:id="categoryComboBox" layoutX="475.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
+                  <ComboBox fx:id="categoryComboBox" cache="true" layoutX="475.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
                   <Label layoutX="37.0" layoutY="211.0" prefHeight="19.0" prefWidth="48.0" text="ID" textOverrun="CLIP">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
@@ -112,7 +112,33 @@
                                     <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
                                  </color>
                               </Stop>
-                              <Stop offset="0.8018137776202293">
+                              <Stop offset="0.850968923549569">
+                                 <color>
+                                    <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="1.0" green="1.0" blue="1.0" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                  </Label>
+                  <Label layoutX="448.0" layoutY="213.0" text="Status">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="0.7495864350703062">
                                  <color>
                                     <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
                                  </color>

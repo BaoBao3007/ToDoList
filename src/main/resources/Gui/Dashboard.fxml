@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="window" prefHeight="749.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Dashboard">
+<BorderPane fx:id="window" prefHeight="749.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Dashboard">
     <left>
         <Pane prefHeight="664.0" prefWidth="262.0" style="-fx-background-color: E9E9E9;" stylesheets="@../Style/style.css" BorderPane.alignment="CENTER">
             <children>
@@ -59,6 +67,18 @@
                                 </ImageView>
                             </graphic>
                         </Button>
+                  <Button alignment="TOP_LEFT" onAction="#Reminder" prefHeight="31.0" prefWidth="174.0" text="Reminder">
+                     <font>
+                        <Font name="Arial Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/ReminderIcon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
                     </children>
                     <padding>
                         <Insets top="15.0" />
@@ -105,7 +125,15 @@
     </top>
     <center>
         <AnchorPane>
-            <StackPane fx:id="contentArea" layoutY="-1.0" prefHeight="749.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0" />
+            <StackPane fx:id="contentArea" layoutY="-1.0" prefHeight="749.0" prefWidth="738.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-1.0">
+            <children>
+               <ButtonBar prefHeight="40.0" prefWidth="200.0">
+                 <buttons>
+                     <Button mnemonicParsing="false" text="Button" />
+                   <Button mnemonicParsing="false" text="Button" />
+                 </buttons>
+               </ButtonBar>
+            </children></StackPane>
         </AnchorPane>
     </center>
 </BorderPane>
