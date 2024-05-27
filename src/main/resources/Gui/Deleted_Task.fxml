@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: WHITE;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.Deleted_TaskController">
+    <children>
+        <Label layoutX="37.0" layoutY="15.0" text="Deleted Tasks" textFill="#333333">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+      <ListView fx:id="taskNameListView" layoutX="62.0" layoutY="171.0" prefHeight="430.0" prefWidth="87.0" style="-fx-background-color: WHITE;" />
+      <ListView fx:id="descriptionListView" layoutX="168.0" layoutY="171.0" prefHeight="430.0" prefWidth="87.0" style="-fx-background-color: WHITE; -fx-padding: 0;" />
+      <ListView fx:id="duedateListView" fixedCellSize="0.0" layoutX="292.0" layoutY="171.0" prefHeight="430.0" prefWidth="87.0" style="-fx-background-color: WHITE; -fx-padding: 0px;" />
+      <Separator layoutX="42.0" layoutY="85.0" prefHeight="0.0" prefWidth="608.0" />
+      <HBox layoutX="84.0" layoutY="688.0" prefHeight="23.0" prefWidth="373.0">
+         <children>
+            <Label fx:id="deadlineLabel1" style="-fx-background-color: white">
+               <font>
+                  <Font name="Times New Roman bold" size="20" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <Label fx:id="deadlineLabel2" layoutX="10.0" layoutY="10.0" style="-fx-background-color: white">
+         <font>
+            <Font name="Times New Roman bold" size="20" />
+         </font>
+      </Label>
+      <Label layoutX="24.0" layoutY="688.0" style="-fx-background-color: white" text="Due: ">
+         <font>
+            <Font name="Times New Roman bold" size="20" />
+         </font>
+      </Label>
+      <Label layoutX="41.0" layoutY="112.0" prefHeight="16.0" prefWidth="129.0" text="TASK NAME ">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.7649474181732249">
+                     <color>
+                        <Color red="0.17489999532699585" green="0.21626000106334686" blue="0.33000001311302185" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="172.0" layoutY="115.0" prefHeight="16.0" prefWidth="166.0" text="description">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8018137776202293">
+                     <color>
+                        <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="280.0" layoutY="115.0" text="dueDate">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.7495864350703062">
+                     <color>
+                        <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <ListView fx:id="importantListView" layoutX="400.0" layoutY="171.0" prefHeight="430.0" prefWidth="87.0" style="-fx-background-color: WHITE;" />
+      <ListView fx:id="usernameListView" layoutX="502.0" layoutY="171.0" prefHeight="430.0" prefWidth="87.0" style="-fx-background-color: WHITE; -fx-padding: 0;" />
+      <ListView fx:id="deletiondateListView" fixedCellSize="0.0" layoutX="613.0" layoutY="171.0" prefHeight="430.0" prefWidth="87.0" style="-fx-background-color: WHITE; -fx-padding: 0px;" />
+      <Label layoutX="365.0" layoutY="112.0" prefHeight="16.0" prefWidth="129.0" text="important">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.7649474181732249">
+                     <color>
+                        <Color red="0.17489999532699585" green="0.21626000106334686" blue="0.33000001311302185" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="516.0" layoutY="115.0" prefHeight="16.0" prefWidth="166.0" text="username">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.8018137776202293">
+                     <color>
+                        <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label layoutX="624.0" layoutY="115.0" text="deletionDate">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="0.17590643465518951" green="0.21882261335849762" blue="0.3368421196937561" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.7495864350703062">
+                     <color>
+                        <Color red="0.2711890935897827" green="0.3382534086704254" blue="0.49473685026168823" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+    </children>
+</AnchorPane>
