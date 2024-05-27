@@ -4,8 +4,11 @@ import Model.Reminder;
 import Model.Task;
 import Model.User;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.sql.*;
-import java.time.LocalDate; // Import LocalDate
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +16,6 @@ import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class ReminderDao {
     private MySQLDataAccess dbConnection;
@@ -247,6 +247,33 @@ public class ReminderDao {
             e.printStackTrace();
         }
     }
+    public void updateReminder(Reminder reminder) {
+        String query = "UPDATE Reminder SET task_id = ?, reminder_date = ?, reminder_message = ? WHERE reminder_id = ?";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, reminder.getTaskId());
+            preparedStatement.setTimestamp(2, reminder.getReminderDate());
+            preparedStatement.setString(3, reminder.getReminderMessage());
+            preparedStatement.setInt(4, reminder.getReminderId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void addReminder(Reminder reminder) {
+        String query = "INSERT INTO Reminder (task_id, reminder_date, reminder_message) VALUES (?, ?, ?)";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, reminder.getTaskId());
+            preparedStatement.setTimestamp(2, reminder.getReminderDate());
+            preparedStatement.setString(3, reminder.getReminderMessage());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public String getTaskNameByTaskId(int taskId) {
         String query = "SELECT t.task_name FROM Task t INNER JOIN Reminder r ON t.task_id = r.task_id WHERE t.task_id = ?";
         String taskName = null;
@@ -263,5 +290,94 @@ public class ReminderDao {
         }
         return taskName;
     }
+    public Task getTaskByName(String taskName) {
+        // TODO: Implement logic to retrieve a task by its name from the database
+        // Example:
+        String query = "SELECT * FROM Task WHERE task_name = ?";
+        Task task = null;
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, taskName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                task = new Task(
+                        resultSet.getInt("task_id"),
+                        resultSet.getString("task_name"),
+                        resultSet.getString("description"),
+                        resultSet.getDate("due_date").toLocalDate(),
+                        resultSet.getInt("category_id"),
+                        resultSet.getString("status"),
+                        resultSet.getBoolean("important"),
+                        resultSet.getString("username"),
+                        resultSet.getDate("creation_date").toLocalDate()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return task;
+    }
+
+    public void updateTask(Task task) {
+        // TODO: Implement logic to update a task in the database
+        // Example:
+        String query = "UPDATE Task SET task_name = ?, description = ?, due_date = ?, category_id = ?, status = ?, important = ?, username = ?, creation_date = ? WHERE task_id = ?";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, task.getTask_name());
+            preparedStatement.setString(2, task.getDescription());
+            preparedStatement.setDate(3, Date.valueOf(task.getDue_date()));
+            preparedStatement.setInt(4, task.getCategory_id());
+            preparedStatement.setString(5, task.getStatus());
+            preparedStatement.setBoolean(6, task.isImportant());
+            preparedStatement.setString(7, task.getUsername());
+            preparedStatement.setDate(8, Date.valueOf(task.getCreation_date()));
+            preparedStatement.setInt(9, task.getTask_id());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteTask(Task task) {
+        // TODO: Implement logic to delete a task from the database
+        // Example:
+        String query = "DELETE FROM Task WHERE task_id = ?";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, task.getTask_id());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public Reminder getReminderById(int reminderId) {
+        String query = "SELECT * FROM Reminder WHERE reminder_id = ?";
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, reminderId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Reminder reminder = new Reminder(
+                            resultSet.getInt("reminder_id"),
+                            resultSet.getInt("task_id"),
+                            resultSet.getTimestamp("reminder_date"),
+                            resultSet.getString("reminder_message")
+                    );
+                    return reminder;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
 
