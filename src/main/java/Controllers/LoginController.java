@@ -1,7 +1,7 @@
 package Controllers;
 
 import Dao.DatabaseOperations;
-import Model.User;
+
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +19,6 @@ import javafx.stage.StageStyle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import javafx.scene.control.Alert;
@@ -42,6 +41,9 @@ public class LoginController implements Initializable {
     private ImageView exit;
     private Stage registerStage; // Biến lưu trữ stage cho màn hình đăng ký
     private Parent registerRoot; // Biến lưu trữ root node của màn hình đăng ký
+
+    private Stage changePassStage;
+    private Parent changePassRoot;
 
     private DatabaseOperations db;
 
@@ -140,5 +142,21 @@ public class LoginController implements Initializable {
         registerStage.setScene(new Scene(registerRoot));
         registerStage.show();
          ((Node)(event.getSource())).getScene().getWindow().hide();
+    }
+
+    @FXML
+    void changepass(ActionEvent event) throws Exception {
+        if (changePassRoot == null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/ChangePass.fxml"));
+            changePassRoot= loader.load();
+            changePassStage = new Stage();
+            changePassStage.initStyle(StageStyle.UNDECORATED); // Tùy chọn: không hiển thị thanh tiêu đề
+        }
+
+        changePassStage.setScene(new Scene(changePassRoot));
+        changePassStage.show();
+
+        // Ẩn form đăng nhập (hoặc tùy chọn khác như đóng form đăng nhập)
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 }

@@ -181,7 +181,7 @@ public class TaskDao {
     public void addTask(Task task) throws SQLException {
         String query = "INSERT INTO Task (task_name, description, due_date, category_id, important, username, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = dbConnection.openConnection();
-             PreparedStatement pst = db.prepareStatement(query)) { // Thay đổi ở đây
+             PreparedStatement pst = db.prepareStatement(query)) {
             pst.setString(1, task.getTask_name());
             pst.setString(2, task.getDescription());
             pst.setDate(3, java.sql.Date.valueOf(task.getDue_date()));
@@ -213,7 +213,7 @@ public class TaskDao {
     public int getCategoryIdByName(String categoryName) throws SQLException {
         String query = "SELECT category_id FROM Category WHERE category_name = ?";
         try (Connection connection = dbConnection.openConnection();
-             PreparedStatement pst = connection.prepareStatement(query)) { // Sử dụng prepareStatement từ dbConnection
+             PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, categoryName);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
@@ -224,44 +224,40 @@ public class TaskDao {
     }
     public boolean deleteTaskAndSaveToDeleted(Task task, LocalDateTime deletionDate) throws SQLException {
         String deleteQuery = "DELETE FROM Task WHERE task_id = ?";
-        String insertQuery = "INSERT INTO Deleted_Task (task_id, task_name, description, due_date, category_id, important, username, deletion_date, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO Deleted_Task (task_id, task_name, description, due_date, category_id, important, username, deletion_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; // Loại bỏ creation_date
 
-        try (Connection connection = dbConnection.openConnection()) {
-            connection.setAutoCommit(true); // Hoặc sử dụng commit thủ công
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
+             PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
 
-            System.out.println(connection); // Kiểm tra kết nối
-            System.out.println(deleteQuery);
-            System.out.println(insertQuery);
+            // Bắt đầu
+            connection.setAutoCommit(false);
 
-            try (PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
-                 PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
-
+            try {
                 // Xóa task
                 deleteStmt.setInt(1, task.getTask_id());
-                deleteStmt.executeUpdate();
+                //deleteStmt.executeUpdate(); //không được mở nó ra plssss
 
-                // Lưu vào Deleted_Task
+                // Lưu vào Deleted_Task (Đã sửa)
                 insertStmt.setInt(1, task.getTask_id());
                 insertStmt.setString(2, task.getTask_name());
                 insertStmt.setString(3, task.getDescription());
-                insertStmt.setDate(4, java.sql.Date.valueOf(task.getDue_date()));
+                insertStmt.setObject(4, task.getDue_date() != null ? task.getDue_date() : null);
                 insertStmt.setInt(5, task.getCategory_id());
                 insertStmt.setBoolean(6, task.isImportant());
                 insertStmt.setString(7, task.getUsername());
-                insertStmt.setTimestamp(8, java.sql.Timestamp.valueOf(deletionDate)); // Lưu deletion_date
-                insertStmt.setTimestamp(9, java.sql.Timestamp.valueOf(task.getCreation_date().atStartOfDay()));
-                insertStmt.executeUpdate();
-
-                System.out.println("Task values: " + task.getTask_id() + ", " + task.getTask_name() + ", ..."); // In giá trị để kiểm tra
+                insertStmt.setObject(8, deletionDate);
 
                 insertStmt.executeUpdate();
+
+                // Commit nếu thành công
+                connection.commit();
                 return true;
-
             } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
+                // Rollback nếu có lỗi
+                connection.rollback();
+                throw e;
             }
         }
     }
-
 }

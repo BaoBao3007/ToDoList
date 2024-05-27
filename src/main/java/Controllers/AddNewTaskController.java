@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import java.io.IOException;
+
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
@@ -28,6 +28,7 @@ import javafx.scene.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 import javafx.util.StringConverter;
 
@@ -64,8 +65,10 @@ public class AddNewTaskController implements Initializable {
         Exit.setOnMouseClicked(e -> {
             Stage stage = (Stage) window.getScene().getWindow();
             stage.close();
+
         });
         loadCategories();
+
 
 
         Categories.getItems().setAll("Waiting","Someday","Important");
@@ -130,7 +133,6 @@ public class AddNewTaskController implements Initializable {
 
             // Tạo đối tượng Task
             Task newTask = new Task(0, taskName, details, deadline, categoryId, "Processing", false, username, LocalDate.now());
-
             // Thêm task vào cơ sở dữ liệu và làm mới ListView trong TaskController
             taskDao.addTask(newTask);
             // Gọi phương thức refreshTaskList() từ TaskController (triển khai bên dưới)
