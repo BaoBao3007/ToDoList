@@ -1,6 +1,5 @@
 package Controllers;
 
-import Controllers.LoginController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -120,6 +119,13 @@ public class Dashboard implements Initializable {
     @FXML
     private void Reminder(javafx.event.ActionEvent event) throws IOException {
         Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Reminder.fxml"));
+        contentArea.getChildren().removeAll();
+        contentArea.getChildren().setAll(fxml);
+
+    }
+    @FXML
+    private void Deleted_Task(javafx.event.ActionEvent event) throws IOException {
+        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Deleted_Task.fxml"));
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
 

@@ -3,17 +3,15 @@
 
 package Controllers;
 import Dao.CategoryDao;
-import Dao.ReminderDao;
 import Dao.TaskDao;
-import Model.Reminder;
 import Model.Task;
+
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -21,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,19 +51,41 @@ public class TaskController   {
     @FXML
     private ComboBox<String> categoryComboBox;
 
+    private static TaskController instance;
+
+    private boolean isRefreshing = false;
+
+    public TaskController() {
+        instance = this;
+    }
+    public static TaskController getInstance() {
+        return instance;
+    }
+    public void refreshTaskList() {
+        if (isRefreshing) {
+            return;
+        }
+
+        isRefreshing = true;
+        List<Task> tasks = TaskDao.getInstance().getAllTasks();
+        ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+        updateListViews(observableTasks);
+        isRefreshing = false;
+    }
     public void initialize() {
         loadCategories();
         categoryComboBox.setOnAction(event -> {
             String selectedCategory = categoryComboBox.getValue();
             if (selectedCategory.equals("All tasks")) {
-                List<Task> allTasks = TaskDao.getInstance().getAllTasks();
-                ObservableList<Task> observableAllTasks = FXCollections.observableArrayList(allTasks);
-                updateListViews(observableAllTasks);
+                List<Task> tasks = TaskDao.getInstance().getAllTasks();
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
             } else {
-                List<Task> tasksByCategory = TaskDao.getInstance().getTasksByCategory(selectedCategory);
-                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasksByCategory);
-                updateListViews(observableTasks);
+                List<Task> tasks = TaskDao.getInstance().getAllTasks();
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
             }
+            TaskDao.getInstance();
         });
 
         RightClick rc = new RightClick();
@@ -163,9 +182,9 @@ public class TaskController   {
                             Task selectedItem = (Task) task_name.getSelectionModel().getSelectedItem();
                             setText(item.getTask_name());
                             if (observableTasks.contains(selectedItem)) {
-                                task_name.getSelectionModel().select(selectedItem);
+                               // task_name.getSelectionModel().select(selectedItem);//Đừng mở nó ra,plss
                             } else {
-                                task_name.getSelectionModel().selectFirst();
+                                //task_name.getSelectionModel().selectFirst();// Bị chỉ định ô đầu.đừng mở
                             }
                         }
                     }
@@ -182,13 +201,6 @@ public class TaskController   {
                 return cell;
             }
         });
-
-
-
-
-
-
-
 
         task_name.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
             @Override

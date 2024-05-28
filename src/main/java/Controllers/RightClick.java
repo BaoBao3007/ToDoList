@@ -1,10 +1,21 @@
 package Controllers;
 
 import Model.Task;
+import Dao.TaskDao;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+
+import java.io.IOException;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import javafx.application.Platform;
 
 
 public class RightClick {
@@ -18,18 +29,20 @@ public class RightClick {
     public ContextMenu ListContexMenu(ListView<Task> ds)
     {
         ContextMenu listContexMenu = new ContextMenu();
-        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Task item = (Task) ds.getSelectionModel().getSelectedItem();
-//                deleteItem(item);
+        deleteMenuItem.setOnAction(event -> {
+            Task selectedTask = ds.getSelectionModel().getSelectedItem();
+            if (selectedTask != null) {
+                showDeleteConfirmationDialog(selectedTask, ds); // Thay đổi ở đây
             }
         });
-        editMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                Task item = (Task) ds.getSelectionModel().getSelectedItem();
-//                editMenuItem(item);
+        editMenuItem.setOnAction(actionEvent -> {
+            Task selectedTask = ds.getSelectionModel().getSelectedItem();
+            if (selectedTask != null) {
+                try {
+                    openEditTaskForm(selectedTask);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         addReminder.setOnAction(new EventHandler<ActionEvent>() {
@@ -43,29 +56,85 @@ public class RightClick {
         listContexMenu.getItems().addAll(deleteMenuItem,editMenuItem,addReminder);
         return listContexMenu;
     }
+    private void deleteTask(Task task, ListView<Task> listView) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa task này?");
+        alert.setContentText(task.getTask_name());
 
-//    public void deleteItem(Task item) {
-//
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Delete todo item");
-//        alert.setHeaderText("Delete item: "+ item.getShortDescription());
-//        alert.setContentText("Are you sure? Press OK to confirm, or cancel to Back out.");
-//        Optional<ButtonType> result = alert.showAndWait();
-//
-//        if(result.isPresent() && (result.get() == ButtonType.OK)){
-//            TodoData.getInstance().deleteTask(item);
-//        }
-//    }
-//    public void editMenuItem(Task item) {
-//
-//        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-//        alert.setTitle("Delete todo item");
-//        alert.setHeaderText("Delete item: "+ item.getShortDescription());
-//        alert.setContentText("Are you sure? Press OK to confirm, or cancel to Back out.");
-//        Optional<ButtonType> result = alert.showAndWait();
-//
-//        if(result.isPresent() && (result.get() == ButtonType.OK)){
-//            TodoData.getInstance().deleteTask(item);
-//        }
-//    }
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                try {
+                    LocalDateTime deletionDate = LocalDateTime.now();
+                    if (TaskDao.getInstance().deleteTaskAndSaveToDeleted(task, deletionDate)) {
+                        showAlert("Thành công", "Đã xóa task và chuyển vào thùng rác.");
+
+
+                        Platform.runLater(() -> listView.getItems().remove(task));
+
+
+                    } else {
+                        showAlert("Lỗi", "Không thể xóa task.");
+                    }
+                } catch (SQLException e) {
+                    showAlert("Lỗi SQL", "Lỗi: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+private void openEditTaskForm(Task selectedTask) throws IOException {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/EditTask.fxml"));
+    Parent root = loader.load();
+
+    try {
+
+        EditTaskController editTaskController = loader.getController();
+        editTaskController.setTask(selectedTask);
+        editTaskController.initializeTaskData();
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+    } catch (SQLException e) {
+        e.printStackTrace();
+        showAlert("Lỗi", "Xảy ra lỗi khi lấy thông tin category.");
+    }
+}
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private void showDeleteConfirmationDialog(Task task, ListView<Task> listView) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Xác nhận xóa");
+        alert.setHeaderText("Bạn có chắc chắn muốn xóa task này?");
+        alert.setContentText(task.getTask_name());
+
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                try {
+                    LocalDateTime deletionDate = LocalDateTime.now();
+                    if (TaskDao.getInstance().deleteTaskAndSaveToDeleted(task, deletionDate)) {
+                        showAlert("Thành công", "Đã xóa task và chuyển vào thùng rác.");
+
+
+                        Platform.runLater(() -> listView.getItems().remove(task));
+
+
+                    } else {
+                        showAlert("Lỗi", "Không thể xóa task.");
+                    }
+                } catch (SQLException e) {
+                    showAlert("Lỗi SQL", "Lỗi: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 }
