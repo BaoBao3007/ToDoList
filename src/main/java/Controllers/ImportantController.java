@@ -286,7 +286,7 @@ public class ImportantController   {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
                 Task selectedItem = important.getSelectionModel().getSelectedItem();
                 TaskDao.getInstance().updateTaskImportant(selectedItem.getTask_id(), !selectedItem.isImportant());
-                List<Task> tasksss = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
+                List<Task> tasksss = TaskDao.getInstance().getImportantTasks(GlobalData.currentUsername);
                 ObservableList<Task> observableTaskss = FXCollections.observableArrayList(tasksss);
                 cell(observableTaskss);
             }
