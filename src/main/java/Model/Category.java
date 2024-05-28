@@ -18,6 +18,9 @@ public class Category {
         this.category_name = categoryName;
     }
 
+    public Category(int categoryId, Category categoryName) {
+    }
+
     public int getCategory_id() {
         return category_id;
     }

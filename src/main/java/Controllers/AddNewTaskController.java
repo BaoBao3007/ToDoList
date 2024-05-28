@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 
@@ -71,12 +72,12 @@ public class AddNewTaskController implements Initializable {
     }
     private void loadCategories() {
         try {
-            List<String> categoryNames = categoryDao.getAllCategories(GlobalData.currentUsername); // Lấy danh sách categoryNames từ CategoryDao
+            List<Category> categoryNames = categoryDao.getAllCategoriesByUsername(GlobalData.currentUsername); // Lấy danh sách categoryNames từ CategoryDao
             List<Category> categories = new ArrayList<>();
 
             // Chuyển đổi danh sách categoryNames thành danh sách categories
-            for (String categoryName : categoryNames) {
-                int categoryId = getCategoryIdByName(categoryName);
+            for (Category categoryName : categoryNames) {
+                int categoryId = getCategoryIdByName(String.valueOf(categoryName));
                 categories.add(new Category(categoryId, categoryName)); // Tạo đối tượng Category và thêm vào danh sách
             }
 

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -114,6 +115,14 @@ public class Dashboard implements Initializable {
 
     }
     @FXML
+    private void Category(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Category.fxml"));
+        Parent fxml = loader.load();
+        contentArea.getChildren().removeAll();
+        contentArea.getChildren().setAll(fxml);
+
+    }
+    @FXML
     private void Reminder(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Reminder.fxml"));
         Parent fxml = loader.load();
@@ -150,4 +159,5 @@ public class Dashboard implements Initializable {
 
     public void changepass(ActionEvent event) {
     }
+
 }

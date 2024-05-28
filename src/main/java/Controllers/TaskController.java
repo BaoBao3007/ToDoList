@@ -4,6 +4,7 @@
 package Controllers;
 import Dao.CategoryDao;
 import Dao.TaskDao;
+import Model.Category;
 import Model.Task;
 
 
@@ -11,6 +12,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.Node;
@@ -29,6 +31,7 @@ import javafx.scene.control.ListView;
 public class TaskController   {
     @FXML
     public Label DescLabel;
+    public Button searchButton;
     @FXML
     private ListView<Task> status;
 
@@ -99,7 +102,13 @@ public class TaskController   {
     private void loadCategories() {
         List<String> categories = new ArrayList<>();
         categories.add("All tasks");
-        categories.addAll(CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername));
+
+        List<Category> categoryList = CategoryDao.getInstance().getAllCategoriesByUsername(GlobalData.currentUsername);
+        // Chuyển đổi List<Category> sang List<String> của tên category
+        for (Category category : categoryList) {
+            categories.add(category.getCategory_name());
+        }
+
         ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
         categoryComboBox.setItems(observableCategories);
         categoryComboBox.getSelectionModel().selectFirst();
@@ -359,6 +368,47 @@ public class TaskController   {
                 }
             }
         });
+    }
+
+    @FXML
+    private TextField searchField;
+
+    // Phương thức xử lý sự kiện khi nút "Search" được nhấn
+    @FXML
+    private void onSearchClicked() {
+        String searchText = searchField.getText();
+        if (!searchText.isEmpty()) {
+            // Gọi hàm tìm kiếm với từ khóa
+            searchTasks(searchText);
+        }
+    }
+
+    private void searchTasks(String searchText) {
+        try {
+            // Giả định rằng bạn có một phương thức tìm kiếm các tasks bằng từ khóa
+            List<Task> filteredTasks = TaskDao.getInstance().searchByKeyword(searchText);
+            // Cập nhật giao diện người dùng với kết quả tìm kiếm, ví dụ đẩy dữ liệu vào ListView
+            ObservableList<Task> observableTasks = FXCollections.observableArrayList(filteredTasks);
+            updateTaskListView(observableTasks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Hiển thị thông báo lỗi, nếu có
+            showAlert("Error", "Cannot perform search due to an error.");
+        }
+    }
+    private void updateTaskListView(ObservableList<Task> tasks) {
+        // ...
+        // Cập nhật danh sách nhiệm vụ của bạn trên giao diện người dùng tại đây
+        // Ví dụ: taskListView.setItems(tasks);
+        // ...
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     private class ComboBoxCell extends ListCell<Task> {
