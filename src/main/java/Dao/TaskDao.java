@@ -177,6 +177,40 @@ public class TaskDao {
 
         return tasks;
     }
+    public List<Task> getTasksByCategoryImportant(String categoryName) {
+        String sql = "SELECT * FROM Task t INNER JOIN Category c ON t.category_id = c.category_id WHERE c.category_name = ? and t.Important = true";
+        List<Task> tasks = new ArrayList<>();
+
+        try (Connection connection = MySQLDataAccess.openConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, categoryName);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int taskId = resultSet.getInt("t.task_id");
+                String taskName = resultSet.getString("t.task_name");
+                String description = resultSet.getString("t.description");
+                LocalDate dueDate = LocalDate.now().plusDays(7);
+                if(resultSet.getDate("t.due_date")!=null)
+                    dueDate = resultSet.getDate("t.due_date").toLocalDate();
+                LocalDate creation_date = LocalDate.now().plusDays(7);
+                if(resultSet.getDate("t.creation_date")!=null)
+                    creation_date = resultSet.getDate("t.creation_date").toLocalDate();
+                int categoryId = resultSet.getInt("t.category_id");
+                String status = resultSet.getString("t.status");
+                boolean important = resultSet.getBoolean("t.important");
+                String username = resultSet.getString("t.username");
+
+
+                Task task = new Task(taskId, taskName, description, dueDate, categoryId,status,important, username,creation_date);
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
     public void addTask(Task task) throws SQLException {
         String query = "INSERT INTO Task (task_name, description, due_date, category_id, important, username, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = MySQLDataAccess.openConnection();

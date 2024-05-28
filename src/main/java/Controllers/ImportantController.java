@@ -42,39 +42,55 @@ public class ImportantController   {
     private Label deadlineLabel;
     @FXML
     private ComboBox<String> categoryComboBox;
-
+    private boolean isRefreshing = false;
     @FXML
     private ContextMenu listContexMenu;
+    public void refreshTaskList() {
+        if (isRefreshing) {
+            return;
+        }
 
+        isRefreshing = true;
+        List<Task> tasks = TaskDao.getInstance().getImportantTasks(GlobalData.currentUsername);
+        System.out.println(GlobalData.currentUsername);
+        ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+        updateListViews(observableTasks);
+        isRefreshing = false;
+    }
     public void initialize() {
-//        loadCategories();
-//        categoryComboBox.setOnAction(event -> {
-//            String selectedCategory = categoryComboBox.getValue();
-//            if (selectedCategory.equals("All tasks")) {
-//                List<Task> tasks = TaskDao.getInstance().getTasksByCategory(GlobalData.currentUsername);
-//                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
-//                status.setItems(observableTasks);
-//            } else {
-//                List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
-//                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
-//                status.setItems(observableTasks);
-//            }
-//            TaskDao.getInstance();
-//        });
+        loadCategories();
+        categoryComboBox.setOnAction(event -> {
+            String selectedCategory = categoryComboBox.getValue();
+
+            if (selectedCategory.equals("All tasks")) {
+                List<Task> tasks = TaskDao.getInstance().getImportantTasks(GlobalData.currentUsername);
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
+                cell(observableTasks );
+            } else {
+                List<Task> tasks = TaskDao.getInstance().getTasksByCategoryImportant(selectedCategory);
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
+                cell( observableTasks);
+            }
+            TaskDao.getInstance();
+        });
+        List<Task> tasksss = TaskDao.getInstance().getImportantTasks(GlobalData.currentUsername);
+        ObservableList<Task> observableTaskss = FXCollections.observableArrayList(tasksss);
+        cell(observableTaskss);
         RightClick rc = new RightClick();
         listContexMenu = rc.ListContexMenu(task_name);
-        cell();
-        synchronizeScrolling(task_name, task_id, status,category, important);
+        synchronizeScrolling(task_name, task_id, category,status, important);
 
     }
-//    private void loadCategories() {
-//        List<String> categories = new ArrayList<>();
-//        categories.add("All tasks");
-//        categories.addAll(CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername));
-//        ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
-//        categoryComboBox.setItems(observableCategories);
-//        categoryComboBox.getSelectionModel().selectFirst();
-//    }
+    private void loadCategories() {
+        List<String> categories = new ArrayList<>();
+        categories.add("All tasks");
+        categories.addAll(CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername));
+        ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
+        categoryComboBox.setItems(observableCategories);
+        categoryComboBox.getSelectionModel().selectFirst();
+    }
 
     private void updateListViews(ObservableList<Task> tasks) {
         task_id.setItems(tasks);
@@ -84,14 +100,12 @@ public class ImportantController   {
         status.setItems(tasks);
     }
 
-    public void cell(){
+    public void cell(ObservableList<Task> observableTasks){
         task_id.setFixedCellSize(30);
         task_name.setFixedCellSize(30);
         important.setFixedCellSize(30);
         category.setFixedCellSize(30);
         status.setFixedCellSize(30);
-        List<Task> tasks = TaskDao.getInstance().getImportantTasks(GlobalData.currentUsername);
-        ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
         task_id.setItems(observableTasks);
         task_id.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         task_id.setCellFactory(new Callback<ListView<Task>, ListCell<Task>>() {
@@ -270,10 +284,11 @@ public class ImportantController   {
         });
         important.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                // Get the selected item
                 Task selectedItem = important.getSelectionModel().getSelectedItem();
                 TaskDao.getInstance().updateTaskImportant(selectedItem.getTask_id(), !selectedItem.isImportant());
-                cell();
+                List<Task> tasksss = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
+                ObservableList<Task> observableTaskss = FXCollections.observableArrayList(tasksss);
+                cell(observableTaskss);
             }
         });
         important.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {

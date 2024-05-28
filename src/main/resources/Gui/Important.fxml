@@ -43,7 +43,7 @@
                   </Label>
                   <Button layoutX="478.0" layoutY="50.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="156.0" text="Tìm kiếm" />
                   <TextField layoutX="37.0" layoutY="53.0" prefHeight="25.0" prefWidth="425.0" />
-                  <ComboBox fx:id="categoryCombobox" layoutX="475.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
+                  <ComboBox fx:id="categoryComboBox" layoutX="475.0" layoutY="145.0" prefHeight="25.0" prefWidth="170.0" />
                   <Label layoutX="37.0" layoutY="211.0" prefHeight="19.0" prefWidth="48.0" text="ID" textOverrun="CLIP">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
