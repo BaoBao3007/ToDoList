@@ -1,5 +1,6 @@
 package Dao;
 
+import Controllers.GlobalData;
 import Model.Reminder;
 import Model.Task;
 import Model.User;
@@ -55,7 +56,26 @@ public class ReminderDao {
         }
         return reminders;
     }
-
+    public List<Reminder> getAllRemindersByusermane(String username) {
+        List<Reminder> reminders = new ArrayList<>();
+        String query = "SELECT * FROM Reminder LEFT JOIN task t ON Reminder.task_id = t.task_id Where t.username ='"+username+"'";
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                Reminder reminder = new Reminder(
+                        resultSet.getInt("reminder_id"),
+                        resultSet.getInt("task_id"),
+                        resultSet.getTimestamp("reminder_date"),
+                        resultSet.getString("reminder_message")
+                );
+                reminders.add(reminder);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return reminders;
+    }
     public void sendReminderEmail(String toEmail, String subject, String messageBody) {
         // Assuming you are sending email from through smtp.gmail.com
         String fromEmail = "dinhbao30072003@gmail.com"; //replace with your email

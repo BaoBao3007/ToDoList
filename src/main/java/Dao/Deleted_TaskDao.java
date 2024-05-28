@@ -19,9 +19,9 @@ public class Deleted_TaskDao {
         return instance;
     }
 
-    public List<Deleted_Task> getAllDeletedTasks() {
+    public List<Deleted_Task> getAllDeletedTasks(String username) {
         List<Deleted_Task> deletedTasks = new ArrayList<>();
-        String query = "SELECT * FROM Deleted_Task";
+        String query = "SELECT * FROM Deleted_Task where username ='"+username+"'";
 
         try (Connection connection = dbConnection.openConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);

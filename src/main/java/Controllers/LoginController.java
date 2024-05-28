@@ -3,6 +3,7 @@ package Controllers;
 import Dao.DatabaseOperations;
 
 
+import com.mysql.cj.log.Log;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,8 +32,7 @@ public class LoginController implements Initializable {
     @FXML
     private TextField txtuser;
 
-    @FXML
-    private TextField txtemail;
+
 
     @FXML
     private PasswordField txtpass;
@@ -53,15 +53,14 @@ public class LoginController implements Initializable {
     void signup(ActionEvent event) {
         String username = txtuser.getText();
         String password = txtpass.getText();
-        String email = txtemail.getText();
 
-        if (authenticateUser(username, password, email)) { // Sử dụng hàm authenticateUser đã có
+        if (authenticateUser(username, password)) { // Sử dụng hàm authenticateUser đã có
             try {
                 Node node = (Node) event.getSource();
                 Stage stage = (Stage) node.getScene().getWindow();
                 stage.close();
                 GlobalData.currentUsername = username; // Lưu username vào biến toàn cục
-                Dash();
+                Dash(username);
 
             } catch (Exception e) {
                 e.printStackTrace(); // Xử lý exception (nếu có) khi chuyển sang Dashboard
@@ -88,9 +87,9 @@ public class LoginController implements Initializable {
             showAlert("Lỗi", "Xảy ra lỗi khi kết nối đến cơ sở dữ liệu."); // Hoặc xử lý lỗi theo cách khác
         }
     }
-    private boolean authenticateUser(String username, String password, String email) {
+    private boolean authenticateUser(String username, String password) {
         try {
-            String query = "SELECT * FROM User WHERE username = '" + username + "' AND password = '" + password + "' AND email = '" + email + "'";
+            String query = "SELECT * FROM User WHERE username = '" + username + "' AND password = '" + password + "'";
             ResultSet resultSet = db.executeQuery(query);
             return resultSet.next();
         } catch (SQLException e) {
@@ -102,7 +101,7 @@ public class LoginController implements Initializable {
         }
     }
     private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR); // Hoặc AlertType.INFORMATION tùy thuộc vào loại thông báo
+        Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -110,9 +109,10 @@ public class LoginController implements Initializable {
     }
 
 
-    public void Dash()throws Exception{
+    public void Dash(String username)throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("/Gui/Dashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Dashboard.fxml"));
+        Parent root = loader.load();
 
         Stage stage = new Stage();
         stage.initStyle(StageStyle.UNDECORATED);
@@ -150,7 +150,7 @@ public class LoginController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/ChangePass.fxml"));
             changePassRoot= loader.load();
             changePassStage = new Stage();
-            changePassStage.initStyle(StageStyle.UNDECORATED); // Tùy chọn: không hiển thị thanh tiêu đề
+            changePassStage.initStyle(StageStyle.UNDECORATED);
         }
 
         changePassStage.setScene(new Scene(changePassRoot));

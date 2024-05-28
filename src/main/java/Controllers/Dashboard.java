@@ -1,5 +1,6 @@
 package Controllers;
 
+import Dao.TaskDao;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,8 @@ public class Dashboard implements Initializable {
     @FXML
     private StackPane contentArea;
 
+
+
     Stage stage = null;
 
     @Override
@@ -59,8 +62,11 @@ public class Dashboard implements Initializable {
         });
 
 
+        TaskDao.getInstance().updateStatus();
         try {
-            Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Task.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Task.fxml"));
+            Parent fxml = loader.load();
+            TaskDao.getInstance().updateStatus();
             contentArea.getChildren().removeAll();
             contentArea.getChildren().setAll(fxml);
 
@@ -71,7 +77,8 @@ public class Dashboard implements Initializable {
 
     @FXML
     private void Task(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/task.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/task.fxml"));
+        Parent fxml = loader.load();
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
 
@@ -79,53 +86,37 @@ public class Dashboard implements Initializable {
 
     @FXML
     private void Today(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Today.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Today.fxml"));
+        Parent fxml = loader.load();
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
 
     }
 
-    @FXML
-    private void Upcomming(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Upcomming.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(fxml);
 
-    }
 
     @FXML
     private void Important(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Important.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Important.fxml"));
+        Parent fxml = loader.load();
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
 
     }
 
-    @FXML
-    private void Someday(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Someday.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(fxml);
 
-
-    }
     @FXML
     private void Trash(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Trash.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Trash.fxml"));
+        Parent fxml = loader.load();
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
 
     }
     @FXML
     private void Reminder(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Reminder.fxml"));
-        contentArea.getChildren().removeAll();
-        contentArea.getChildren().setAll(fxml);
-
-    }
-    @FXML
-    private void Deleted_Task(javafx.event.ActionEvent event) throws IOException {
-        Parent fxml = FXMLLoader.load(getClass().getResource("/Gui/Deleted_Task.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Reminder.fxml"));
+        Parent fxml = loader.load();
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
 
@@ -137,7 +128,8 @@ public class Dashboard implements Initializable {
     }
     double x,y = 0;
     public void Addnewpage()throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("/Gui/Addnew.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Gui/Addnew.fxml"));
+        Parent root = loader.load();
         Stage stage = new Stage();
 
         stage.initStyle(StageStyle.UNDECORATED);
@@ -156,5 +148,6 @@ public class Dashboard implements Initializable {
     }
 
 
-
+    public void changepass(ActionEvent event) {
+    }
 }

@@ -1,12 +1,14 @@
 package Dao;
 
 
+import Controllers.GlobalData;
 import Model.Task;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +21,6 @@ import java.time.LocalDateTime;
 public class TaskDao {
     private static TaskDao instance;
     private DatabaseOperations db;
-    private MySQLDataAccess dbConnection;
     private Map<String, Integer> categoryCache = new HashMap<>();
 
     private TaskDao() {
@@ -34,14 +35,15 @@ public class TaskDao {
     public static TaskDao getInstance() {
         if (instance == null) {
             instance = new TaskDao();
+
         }
         return instance;
     }
-    public List<Task> getAllTasks() {
+    public List<Task> getAllTasks(String username) {
         List<Task> tasks = new ArrayList<>();
-        String query = "SELECT * FROM task";
+        String query = "SELECT * FROM task where username ='"+username+"'";
 
-        try (Connection connection = dbConnection.openConnection();
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -66,9 +68,9 @@ public class TaskDao {
                     status=resultSet.getString("status");
                 int categoryId = resultSet.getInt("category_id");
                 boolean important = resultSet.getBoolean("important");
-                String username = resultSet.getString("username");
+                String Username = resultSet.getString("username");
 
-                Task task = new Task(taskId, taskName, description, dueDate,categoryId,status,  important, username,creation_date);
+                Task task = new Task(taskId, taskName, description, dueDate,categoryId,status,  important, Username,creation_date);
                 tasks.add(task);
             }
         } catch (SQLException e) {
@@ -77,10 +79,10 @@ public class TaskDao {
 
         return tasks;
     }
-        public List<Task> getImportantTasks() {
+        public List<Task> getImportantTasks(String Username) {
         List<Task> tasks = new ArrayList<>();
-        String query = "SELECT * FROM task WHERE important = true";
-        try (Connection connection = dbConnection.openConnection();
+        String query = "SELECT * FROM task WHERE important = true and  username ='"+Username+"'";
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
@@ -110,13 +112,10 @@ public class TaskDao {
         return tasks;
     }
 
-
-
-
     public int updateTaskImportant(int task_id, boolean important) {
 
         String sql = "UPDATE task SET important = ? WHERE task_id = ?";
-        try (Connection connection = dbConnection.openConnection();
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setBoolean(1, important);
             statement.setInt(2, task_id);
@@ -131,7 +130,7 @@ public class TaskDao {
     public int updateTaskStatus(int task_id, String status) {
 
         String sql = "UPDATE task SET status = ? WHERE task_id = ?";
-        try (Connection connection = dbConnection.openConnection();
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, status);
             statement.setInt(2, task_id);
@@ -148,7 +147,7 @@ public class TaskDao {
         String sql = "SELECT * FROM Task t INNER JOIN Category c ON t.category_id = c.category_id WHERE c.category_name = ?";
         List<Task> tasks = new ArrayList<>();
 
-        try (Connection connection = dbConnection.openConnection();
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, categoryName);
             ResultSet resultSet = statement.executeQuery();
@@ -180,7 +179,7 @@ public class TaskDao {
     }
     public void addTask(Task task) throws SQLException {
         String query = "INSERT INTO Task (task_name, description, due_date, category_id, important, username, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection connection = dbConnection.openConnection();
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement pst = db.prepareStatement(query)) {
             pst.setString(1, task.getTask_name());
             pst.setString(2, task.getDescription());
@@ -194,7 +193,7 @@ public class TaskDao {
     }
     public boolean updateTask(Task task) {
         String sql = "UPDATE Task SET task_name = ?, description = ?, due_date = ?, category_id = ? WHERE task_id = ?";
-        try (Connection conn = dbConnection.openConnection();
+        try (Connection conn = MySQLDataAccess.openConnection();
              PreparedStatement stmt = db.prepareStatement(sql)) {
 
             stmt.setString(1, task.getTask_name());
@@ -212,7 +211,7 @@ public class TaskDao {
 
     public int getCategoryIdByName(String categoryName) throws SQLException {
         String query = "SELECT category_id FROM Category WHERE category_name = ?";
-        try (Connection connection = dbConnection.openConnection();
+        try (Connection connection = MySQLDataAccess.openConnection();
              PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setString(1, categoryName);
             ResultSet rs = pst.executeQuery();
@@ -226,18 +225,16 @@ public class TaskDao {
         String deleteQuery = "DELETE FROM Task WHERE task_id = ?";
         String insertQuery = "INSERT INTO Deleted_Task (task_id, task_name, description, due_date, category_id, important, username, deletion_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection connection = dbConnection.openConnection()) {
+        try (Connection connection = MySQLDataAccess.openConnection()) {
             connection.setAutoCommit(false); // Bắt đầu
 
             try (PreparedStatement deleteStmt = connection.prepareStatement(deleteQuery);
                  PreparedStatement insertStmt = connection.prepareStatement(insertQuery)) {
 
-                // Xóa task khỏi bảng Task trước
                 deleteStmt.setInt(1, task.getTask_id());
                 int rowsDeleted = deleteStmt.executeUpdate();
 
-                if (rowsDeleted > 0) { // Kiểm tra xem có task nào bị xóa không
-                    // Lưu vào Deleted_Task
+                if (rowsDeleted > 0) {
                     insertStmt.setInt(1, task.getTask_id());
                     insertStmt.setString(2, task.getTask_name());
                     insertStmt.setString(3, task.getDescription());
@@ -254,7 +251,6 @@ public class TaskDao {
                     return false;
                 }
 
-                // Commit nếu thành công
                 connection.commit();
                 return true;
             } catch (SQLException e) {
@@ -264,6 +260,70 @@ public class TaskDao {
                 e.printStackTrace();
                 throw e;
             }
+        }
+    }
+    public List<Task> getTodayTasks(String username) {
+        List<Task> tasks = new ArrayList<>();
+        LocalDate currentDate = LocalDate.now();
+        String formattedCurrentDate = currentDate.format(DateTimeFormatter.ISO_DATE);
+        System.out.println(formattedCurrentDate);
+        String query = "SELECT * FROM task WHERE username ='" + username + "' AND due_date >= '" + formattedCurrentDate + "'";
+
+        try (Connection connection = MySQLDataAccess.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            while (resultSet.next()) {
+                int taskId = resultSet.getInt("task_id");
+                String taskName = resultSet.getString("task_name");
+                String description = resultSet.getString("description");
+                LocalDate dueDate = LocalDate.now();
+                if(resultSet.getDate("due_date") != null)
+                {
+                    dueDate = resultSet.getDate("due_date").toLocalDate();
+                }
+
+                LocalDate creation_date = LocalDate.now();
+
+                if(resultSet.getDate("creation_date") != null)
+                {
+                    creation_date = resultSet.getDate("creation_date").toLocalDate();
+                }
+                String status = "";
+                if(resultSet.getString("status")!=null)
+                    status=resultSet.getString("status");
+                int categoryId = resultSet.getInt("category_id");
+                boolean important = resultSet.getBoolean("important");
+                String Username = resultSet.getString("username");
+
+                Task task = new Task(taskId, taskName, description, dueDate,categoryId,status,  important, Username,creation_date);
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
+
+    public void updateStatus() {
+        List<Task> getAllTasks = getAllTasks(GlobalData.currentUsername);
+        for (Task task :
+                getAllTasks) {
+            String sql = "UPDATE Task SET status = ? WHERE task_id = ?";
+            try (Connection conn = MySQLDataAccess.openConnection();
+                 PreparedStatement stmt = db.prepareStatement(sql)) {
+                if (task.getDue_date().isAfter(LocalDate.now())) {
+                    stmt.setString(1, task.getStatus());
+                }
+
+                else stmt.setString(1, "Late");
+                stmt.setInt(2, task.getTask_id());
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 

@@ -51,6 +51,8 @@ public class TaskController   {
     @FXML
     private ComboBox<String> categoryComboBox;
 
+
+
     private static TaskController instance;
 
     private boolean isRefreshing = false;
@@ -67,7 +69,8 @@ public class TaskController   {
         }
 
         isRefreshing = true;
-        List<Task> tasks = TaskDao.getInstance().getAllTasks();
+        List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
+        System.out.println(GlobalData.currentUsername);
         ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
         updateListViews(observableTasks);
         isRefreshing = false;
@@ -77,11 +80,11 @@ public class TaskController   {
         categoryComboBox.setOnAction(event -> {
             String selectedCategory = categoryComboBox.getValue();
             if (selectedCategory.equals("All tasks")) {
-                List<Task> tasks = TaskDao.getInstance().getAllTasks();
+                List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
                 ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
                 status.setItems(observableTasks);
             } else {
-                List<Task> tasks = TaskDao.getInstance().getAllTasks();
+                List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
                 ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
                 status.setItems(observableTasks);
             }
@@ -96,7 +99,7 @@ public class TaskController   {
     private void loadCategories() {
         List<String> categories = new ArrayList<>();
         categories.add("All tasks");
-        categories.addAll(CategoryDao.getInstance().getAllCategories());
+        categories.addAll(CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername));
         ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
         categoryComboBox.setItems(observableCategories);
         categoryComboBox.getSelectionModel().selectFirst();
@@ -116,7 +119,7 @@ public class TaskController   {
         category.setFixedCellSize(30);
         status.setFixedCellSize(30);
 
-        List<Task> tasks = TaskDao.getInstance().getAllTasks();
+        List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
         ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
         task_id.setItems(observableTasks);
         task_id.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

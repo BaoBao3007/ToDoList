@@ -71,7 +71,7 @@ public class AddNewTaskController implements Initializable {
     }
     private void loadCategories() {
         try {
-            List<String> categoryNames = categoryDao.getAllCategories(); // Lấy danh sách categoryNames từ CategoryDao
+            List<String> categoryNames = categoryDao.getAllCategories(GlobalData.currentUsername); // Lấy danh sách categoryNames từ CategoryDao
             List<Category> categories = new ArrayList<>();
 
             // Chuyển đổi danh sách categoryNames thành danh sách categories
@@ -121,14 +121,9 @@ public class AddNewTaskController implements Initializable {
             }
             int categoryId = selectedCategory.getCategory_id();
 
-            // Lấy username từ session hoặc bất kỳ nguồn nào bạn đã lưu trữ
-            String username = GlobalData.currentUsername;// Thay thế bằng username thực tế của người dùng
-
             // Tạo đối tượng Task
-            Task newTask = new Task(0, taskName, details, deadline, categoryId, "Processing", false, username, LocalDate.now());
-            // Thêm task vào cơ sở dữ liệu và làm mới ListView trong TaskController
+            Task newTask = new Task(0, taskName, details, deadline, categoryId, "Processing", false, GlobalData.currentUsername, LocalDate.now());
             taskDao.addTask(newTask);
-            // Gọi phương thức refreshTaskList() từ TaskController (triển khai bên dưới)
             TaskController taskController = TaskController.getInstance();
             if (taskController != null) {
                 taskController.refreshTaskList();

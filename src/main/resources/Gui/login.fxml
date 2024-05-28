@@ -29,14 +29,13 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Button>
-            <TextField fx:id="txtuser" layoutX="70.0" layoutY="102.0" promptText="User Name" />
-            <TextField fx:id="txtemail" layoutX="70.0" layoutY="157.0" promptText="Email" />
+            <TextField fx:id="txtuser" layoutX="70.0" layoutY="122.0" promptText="User Name" />
             <Label layoutX="70.0" layoutY="51.0" text="SIGN IN">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <PasswordField fx:id="txtpass" layoutX="70.0" layoutY="215.0" promptText="Password" />
+            <PasswordField fx:id="txtpass" layoutX="70.0" layoutY="165.0" promptText="Password" />
             <ImageView fx:id="exit" fitHeight="24.0" fitWidth="22.0" layoutX="276.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/close.png" />

@@ -39,6 +39,7 @@ public class EditTaskController {
     @FXML
     private Button cancelButton;
     private Task task;
+
     private TaskDao taskDao = TaskDao.getInstance();
     private CategoryDao categoryDao = CategoryDao.getInstance();
 
@@ -57,7 +58,7 @@ public class EditTaskController {
                 categoryComboBox.getSelectionModel().select(selectedCategory);
             }
 
-            loadCategories(); // Load categories vào ComboBox
+            loadCategories(GlobalData.currentUsername); // Load categories vào ComboBox
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert("Lỗi", "Xảy ra lỗi khi lấy thông tin category.");
@@ -100,9 +101,9 @@ public class EditTaskController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private void loadCategories() {
+    private void loadCategories(String username) {
         try {
-            List<String> categoryNames = categoryDao.getAllCategories(); // Sử dụng phương thức getAllCategories()
+            List<String> categoryNames = categoryDao.getAllCategories(username); // Sử dụng phương thức getAllCategories()
             List<Category> categories = new ArrayList<>();
 
             // Chuyển đổi danh sách categoryNames thành danh sách categories

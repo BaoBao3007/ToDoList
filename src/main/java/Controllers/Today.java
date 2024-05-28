@@ -61,7 +61,7 @@ public class Today   {
         important.setFixedCellSize(30);
         category.setFixedCellSize(30);
         status.setFixedCellSize(30);
-        List<Task> tasks = TaskDao.getInstance().getAllTasks();
+        List<Task> tasks = TaskDao.getInstance().getTodayTasks(GlobalData.currentUsername);
         ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
         task_id.setItems(observableTasks);
         task_id.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);

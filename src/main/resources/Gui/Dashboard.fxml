@@ -71,18 +71,6 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button alignment="TOP_LEFT" onAction="#Deleted_Task" prefHeight="31.0" prefWidth="174.0" text="Deleted_Task">
-                     <font>
-                        <Font name="Arial Bold" size="14.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/Delete_task.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
                     </children>
                     <padding>
                         <Insets top="15.0" />
@@ -91,6 +79,7 @@
                         <Insets />
                     </opaqueInsets>
                 </VBox>
+
                 <Button layoutX="32.0" layoutY="610.0" onAction="#Addnew" prefHeight="52.0" prefWidth="59.0" style="-fx-background-color: #4DBCFF; -fx-background-radius: 10px;" text="+" textFill="WHITE">
                     <font>
                         <Font size="24.0" />

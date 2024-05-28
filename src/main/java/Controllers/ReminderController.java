@@ -40,7 +40,7 @@ public class ReminderController {
     public void initialize() {
         // Lấy dữ liệu từ ReminderDao
         ReminderDao reminderDao = new ReminderDao();
-        List<Reminder> reminders = reminderDao.getAllReminders();
+        List<Reminder> reminders = reminderDao.getAllRemindersByusermane(GlobalData.currentUsername);
 
         // Hiển thị tên công việc lên ListView taskName và kích hoạt sự kiện khi chọn item
         taskNameListView.getItems().clear();

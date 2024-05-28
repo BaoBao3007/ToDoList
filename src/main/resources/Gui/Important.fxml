@@ -158,7 +158,7 @@
          <right>
             <Pane prefHeight="636.0" prefWidth="215.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="38.0" layoutY="170.0" text="Upcomming Task">
+                  <Label layoutX="38.0" layoutY="170.0" text="Description Task">
                      <font>
                         <Font name="Arial Bold" size="18.0" />
                      </font>

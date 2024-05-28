@@ -35,9 +35,9 @@ public class CategoryDao {
         }
         return categoryName;
     }
-    public List<String> getAllCategories() {
+    public List<String> getAllCategories(String username) {
         List<String> categories = new ArrayList<>();
-        String sql = "SELECT category_name FROM Category";
+        String sql = "SELECT category_name FROM Category where username ='"+username+"'";
         try (Connection connection = dbConnection.openConnection();
              PreparedStatement statement = connection.prepareStatement(sql);
              ResultSet resultSet = statement.executeQuery()) {
