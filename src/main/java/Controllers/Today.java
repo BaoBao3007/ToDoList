@@ -4,6 +4,7 @@
 package Controllers;
 import Dao.CategoryDao;
 import Dao.TaskDao;
+import Model.Category;
 import Model.Task;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -69,7 +70,11 @@ public class Today   {
     private void loadCategories() {
         List<String> categories = new ArrayList<>();
         categories.add("All tasks");
-        categories.addAll(CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername));
+        for (Category category :CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername)
+        ) {
+            categories.add(category.getCategory_name());
+
+        }
         ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
         categoryComboBox.setItems(observableCategories);
         categoryComboBox.getSelectionModel().selectFirst();

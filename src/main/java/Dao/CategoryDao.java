@@ -21,9 +21,9 @@ public class CategoryDao {
         return instance;
     }
 
-    public List<Category> getAllCategories() {
+    public List<Category> getAllCategories(String Username) {
         List<Category> categories = new ArrayList<>();
-        String query = "SELECT * FROM Category";
+        String query = "SELECT * FROM Category where username ='"+Username+"'";
 
         try (Connection connection = dbConnection.openConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);

@@ -32,7 +32,7 @@ public class CategoryController {
     public void initialize() {
         // Lấy dữ liệu từ CategoryDao
         CategoryDao categoryDao = new CategoryDao();
-        List<Category> categories = categoryDao.getAllCategories();
+        List<Category> categories = categoryDao.getAllCategories(GlobalData.currentUsername);
 
         // Hiển thị tên danh mục lên ListView categoryName
         categoryNameListView.getItems().clear();
@@ -102,7 +102,7 @@ public class CategoryController {
     }
     private void deleteCategory(int selectedIndex) {
         CategoryDao categoryDao = new CategoryDao();
-        List<Category> categories = categoryDao.getAllCategories();
+        List<Category> categories = categoryDao.getAllCategories(GlobalData.currentUsername);
         if (selectedIndex < categories.size()) {
             Category selectedCategory = categories.get(selectedIndex);
             categoryDao.deleteCategory(selectedCategory.getCategory_id());
@@ -112,7 +112,7 @@ public class CategoryController {
 
     private void editCategory(int selectedIndex) {
         CategoryDao categoryDao = new CategoryDao();
-        List<Category> categories = categoryDao.getAllCategories();
+        List<Category> categories = categoryDao.getAllCategories(GlobalData.currentUsername);
         if (selectedIndex < categories.size()) {
             Category selectedCategory = categories.get(selectedIndex);
             // Cài đặt logic để chỉnh sửa danh mục,
