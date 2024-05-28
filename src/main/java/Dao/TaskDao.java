@@ -184,6 +184,11 @@ public class TaskDao {
             pst.setString(1, task.getTask_name());
             pst.setString(2, task.getDescription());
             pst.setDate(3, java.sql.Date.valueOf(task.getDue_date()));
+            if(task.getCategory_id()==0)
+            {
+                pst.setString(4, null);
+            }
+            else
             pst.setInt(4, task.getCategory_id());
             pst.setBoolean(5, task.isImportant());
             pst.setString(6, task.getUsername());

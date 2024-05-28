@@ -119,7 +119,13 @@ public class AddNewTaskController implements Initializable {
                 showAlert("Lỗi", "Vui lòng điền đầy đủ thông tin.");
                 return;
             }
-            int categoryId = selectedCategory.getCategory_id();
+            int categoryId;
+            if(selectedCategory==null)
+            {
+                categoryId = 0;
+            }
+            else
+            categoryId = selectedCategory.getCategory_id();
 
             // Tạo đối tượng Task
             Task newTask = new Task(0, taskName, details, deadline, categoryId, "Processing", false, GlobalData.currentUsername, LocalDate.now());
@@ -128,6 +134,7 @@ public class AddNewTaskController implements Initializable {
             if (taskController != null) {
                 taskController.refreshTaskList();
             }
+
 
             // Đóng cửa sổ sau khi thêm thành công
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
