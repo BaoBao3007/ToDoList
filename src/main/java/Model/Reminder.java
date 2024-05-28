@@ -18,10 +18,6 @@ public class Reminder {
         this.sent = false;
     }
 
-    public Reminder() {
-
-    }
-
 
     public void setReminderDate(Timestamp reminderDate) {
         this.reminderDate = reminderDate;

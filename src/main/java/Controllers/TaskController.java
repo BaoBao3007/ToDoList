@@ -55,7 +55,6 @@ public class TaskController   {
     private ComboBox<String> categoryComboBox;
 
 
-
     private static TaskController instance;
 
     private boolean isRefreshing = false;
@@ -87,7 +86,7 @@ public class TaskController   {
                 ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
                 status.setItems(observableTasks);
             } else {
-                List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
+                List<Task> tasks = TaskDao.getInstance().getTasksByCategory(GlobalData.currentUsername);
                 ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
                 status.setItems(observableTasks);
             }

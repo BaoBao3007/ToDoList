@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.input.MouseButton;
 import javafx.scene.control.ListCell;
@@ -27,7 +28,7 @@ public class Today   {
     @FXML
     public ListView status;
     @FXML
-    public ComboBox categoryComboBox;
+    private ComboBox<String> categoryComboBox;
     private List<Task> Tasks;
 
     @FXML
@@ -41,19 +42,46 @@ public class Today   {
     private ListView<Task> important;
     @FXML
     private Label deadlineLabel;
-
     @FXML
     private ContextMenu listContexMenu;
 
     public void initialize() {
+        loadCategories();
+        categoryComboBox.setOnAction(event -> {
+            String selectedCategory = categoryComboBox.getValue();
+            if (selectedCategory.equals("All tasks")) {
+                List<Task> tasks = TaskDao.getInstance().getTasksByCategory(GlobalData.currentUsername);
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
+            } else {
+                List<Task> tasks = TaskDao.getInstance().getAllTasks(GlobalData.currentUsername);
+                ObservableList<Task> observableTasks = FXCollections.observableArrayList(tasks);
+                status.setItems(observableTasks);
+            }
+            TaskDao.getInstance();
+        });
         RightClick rc = new RightClick();
         listContexMenu = rc.ListContexMenu(task_name);
         cell();
         synchronizeScrolling(task_name, task_id, status,category, important);
 
     }
+    private void loadCategories() {
+        List<String> categories = new ArrayList<>();
+        categories.add("All tasks");
+        categories.addAll(CategoryDao.getInstance().getAllCategories(GlobalData.currentUsername));
+        ObservableList<String> observableCategories = FXCollections.observableArrayList(categories);
+        categoryComboBox.setItems(observableCategories);
+        categoryComboBox.getSelectionModel().selectFirst();
+    }
 
-
+    private void updateListViews(ObservableList<Task> tasks) {
+        task_id.setItems(tasks);
+        task_name.setItems(tasks);
+        important.setItems(tasks);
+        category.setItems(tasks);
+        status.setItems(tasks);
+    }
 
     public void cell(){
         task_id.setFixedCellSize(30);
@@ -183,9 +211,10 @@ public class Today   {
             public ListCell<Task> call(ListView<Task> param) {
 
 
-                return new Today.ComboBoxCell();
+                return new ComboBoxCell();
             }
         });
+
         status.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
             @Override
             public void changed(ObservableValue<? extends Task> observable, Task oldValue, Task newValue) {

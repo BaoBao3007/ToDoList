@@ -102,7 +102,6 @@ public class Dashboard implements Initializable {
         Parent fxml = loader.load();
         contentArea.getChildren().removeAll();
         contentArea.getChildren().setAll(fxml);
-
     }
 
 
