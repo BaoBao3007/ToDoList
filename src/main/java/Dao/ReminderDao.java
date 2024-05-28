@@ -1,6 +1,5 @@
 package Dao;
 
-import Controllers.GlobalData;
 import Model.Reminder;
 import Model.Task;
 import Model.User;
@@ -398,6 +397,55 @@ public class ReminderDao {
         }
         return null;
     }
+
+
+        public List<Reminder> getAllRemindersByUsermane(String username) {
+            List<Reminder> reminders = new ArrayList<>();
+            try (Connection connection =  dbConnection.openConnection();
+                 PreparedStatement statement = connection.prepareStatement("SELECT * FROM Reminder WHERE username = ?")) {
+                statement.setString(1, username);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Reminder reminder = new Reminder();
+                        reminder.setReminderId(resultSet.getInt("reminder_id"));
+                        reminder.setTaskId(resultSet.getInt("task_id"));
+                        reminder.setReminderDate(resultSet.getTimestamp("reminder_date"));
+                        reminder.setReminderMessage(resultSet.getString("reminder_message"));
+                        reminder.setSent(resultSet.getBoolean("sent"));
+                        reminders.add(reminder);
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return reminders;
+        }
+//
+//        public void deleteReminder(Reminder reminder) {
+//            try (Connection connection =  dbConnection.openConnection();
+//                 PreparedStatement statement = connection.prepareStatement("DELETE FROM Reminder WHERE reminder_id = ?")) {
+//                statement.setInt(1, reminder.getReminderId());
+//                statement.executeUpdate();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        public void updateReminder(Reminder reminder) {
+//            try (Connection connection =  dbConnection.openConnection();
+//                 PreparedStatement statement = connection.prepareStatement(
+//                         "UPDATE Reminder SET task_id = ?, reminder_date = ?, reminder_message = ?, sent = ? WHERE reminder_id = ?")) {
+//                statement.setInt(1, reminder.getTaskId());
+//                statement.setTimestamp(2, reminder.getReminderDate());
+//                statement.setString(3, reminder.getReminderMessage());
+//                statement.setBoolean(4, reminder.isSent());
+//                statement.setInt(5, reminder.getReminderId());
+//                statement.executeUpdate();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
 
 }
 
