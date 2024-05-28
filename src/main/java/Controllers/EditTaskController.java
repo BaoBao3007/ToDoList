@@ -48,21 +48,16 @@ public class EditTaskController {
     }
     @FXML
     public void initializeTaskData() throws SQLException {
-        try {
-            if (task != null) {
-                Description.setText(task.getTask_name());
-                DetailsArea.setText(task.getDescription());
-                Deadline.setValue(task.getDue_date());
-                // Chọn category trong ComboBox dựa trên category_id của task
-                Category selectedCategory = categoryDao.getCategoryById(task.getCategory_id());
-                categoryComboBox.getSelectionModel().select(selectedCategory);
-            }
-
-            loadCategories(GlobalData.currentUsername); // Load categories vào ComboBox
-        } catch (SQLException e) {
-            e.printStackTrace();
-            showAlert("Lỗi", "Xảy ra lỗi khi lấy thông tin category.");
+        if (task != null) {
+            Description.setText(task.getTask_name());
+            DetailsArea.setText(task.getDescription());
+            Deadline.setValue(task.getDue_date());
+            // Chọn category trong ComboBox dựa trên category_id của task
+            Category selectedCategory = categoryDao.getCategoryById(task.getCategory_id());
+            categoryComboBox.getSelectionModel().select(selectedCategory);
         }
+
+        loadCategories(GlobalData.currentUsername); // Load categories vào ComboBox
     }
     @FXML
     private void ok(ActionEvent event) {
@@ -103,12 +98,12 @@ public class EditTaskController {
     }
     private void loadCategories(String username) {
         try {
-            List<String> categoryNames = categoryDao.getAllCategories(username); // Sử dụng phương thức getAllCategories()
+            List<Category> categoryNames = categoryDao.getAllCategoriesByUsername(username); // Sử dụng phương thức getAllCategories()
             List<Category> categories = new ArrayList<>();
 
             // Chuyển đổi danh sách categoryNames thành danh sách categories
-            for (String categoryName : categoryNames) {
-                int categoryId = taskDao.getCategoryIdByName(categoryName); // Sửa lại ở đây
+            for (Category categoryName : categoryNames) {
+                int categoryId = taskDao.getCategoryIdByName(String.valueOf(categoryName)); // Sửa lại ở đây
                 categories.add(new Category(categoryId, categoryName));
             }
 

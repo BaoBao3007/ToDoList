@@ -366,4 +366,42 @@ public class TaskDao {
         }
     }
 
+
+    public List<Task> searchByKeyword(String searchText) {
+        List<Task> tasks = new ArrayList<>();
+        // Chuẩn bị câu truy vấn SQL, sử dụng LIKE để tìm kiếm một cách mơ hồ
+        String query = "SELECT * FROM task WHERE (task_name LIKE ? OR description LIKE ?) AND username = ?";
+
+        try (Connection connection = MySQLDataAccess.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Thiết lập các giá trị tham số cho prepared statement.
+            // Thêm phần trăm (%) để tìm kiếm một phần của chuỗi.
+            preparedStatement.setString(1, "%" + searchText + "%");
+            preparedStatement.setString(2, "%" + searchText + "%");
+            preparedStatement.setString(3, GlobalData.currentUsername);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int taskId = resultSet.getInt("task_id");
+                String taskName = resultSet.getString("task_name");
+                String description = resultSet.getString("description");
+                LocalDate dueDate = resultSet.getDate("due_date") != null ? resultSet.getDate("due_date").toLocalDate() : LocalDate.now();
+                LocalDate creationDate = resultSet.getDate("creation_date") != null ? resultSet.getDate("creation_date").toLocalDate() : LocalDate.now();
+                String status = resultSet.getString("status") != null ? resultSet.getString("status") : "";
+                int categoryId = resultSet.getInt("category_id");
+                boolean important = resultSet.getBoolean("important");
+                String username = resultSet.getString("username");
+
+                // Tạo và thêm đối tượng Task vào danh sách
+                Task task = new Task(taskId, taskName, description, dueDate, categoryId, status, important, username, creationDate);
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return tasks;
+    }
 }

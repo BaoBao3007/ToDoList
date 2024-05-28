@@ -59,6 +59,18 @@
                                 </ImageView>
                             </graphic>
                         </Button>
+                        <Button alignment="TOP_LEFT" onAction="#Category" prefHeight="31.0" prefWidth="174.0" text="Category">
+                            <font>
+                                <Font name="Arial Bold" size="14.0" />
+                            </font>
+                            <graphic>
+                                <ImageView fitHeight="23.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../img/category.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                   <Button alignment="TOP_LEFT" onAction="#Reminder" prefHeight="31.0" prefWidth="174.0" text="Reminder">
                      <font>
                         <Font name="Arial Bold" size="14.0" />
@@ -71,6 +83,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
+
                     </children>
                     <padding>
                         <Insets top="15.0" />
