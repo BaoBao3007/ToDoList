@@ -50,6 +50,7 @@ public class CategoryController {
 
         // Khi chuột phải vào một item, hiển thị menu context
         categoryNameListView.setContextMenu(contextMenu);
+        categoryIdListView.setContextMenu(contextMenu);
         categoryNameListView.setOnContextMenuRequested(event -> {
             int selectedIndex = categoryNameListView.getSelectionModel().getSelectedIndex();
             if (selectedIndex >= 0) {

@@ -137,12 +137,19 @@ public class ReminderDao {
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, taskId);
             ResultSet resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
+                LocalDate date;
+                if( resultSet.getDate("due_date") == null )
+                {
+                    date = LocalDate.now().plusDays(7);
+                }
+                else date = resultSet.getDate("due_date").toLocalDate();
                 task = new Task(
                         resultSet.getInt("task_id"),
                         resultSet.getString("task_name"),
                         resultSet.getString("description"),
-                        resultSet.getDate("due_date").toLocalDate(),
+                        date,
                         resultSet.getInt("category_id"),
                         resultSet.getString("status"),
                         resultSet.getBoolean("important"),
